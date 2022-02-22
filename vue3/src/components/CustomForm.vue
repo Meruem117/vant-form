@@ -2,9 +2,10 @@
   <van-form>
     <van-cell-group inset>
       <van-field
-        v-for="item, index in props.config"
+        v-for="item, index in config.options"
         :key="index"
         :label="item.label"
+        :type="item.type"
         :placeholder="`Please input ${item.label}`"
       />
     </van-cell-group>
@@ -18,7 +19,7 @@
 import { defineProps } from 'vue'
 import type { configType } from '../models'
 
-const props = defineProps<{ config: configType[] }>()
+defineProps<{ config: configType }>()
 </script>
 
 <style scoped>

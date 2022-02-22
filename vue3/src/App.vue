@@ -6,12 +6,14 @@
 import CustomForm from './components/CustomForm.vue'
 import type { configType } from './models'
 
-const config: configType[] = [
-  { label: 'Username' },
-  { label: 'Password' },
-  { label: 'Age' },
-  { label: 'Address' }
-]
+const config: configType = {
+  options: [
+    { label: 'Username', type: 'textarea' },
+    { label: 'Password' },
+    { label: 'Age' },
+    { label: 'Address' }
+  ]
+}
 </script>
 
 <style>
@@ -25,7 +27,7 @@ body {
 #app {
   display: flex;
   justify-content: center;
-  padding: 30px;
+  padding: 20px;
   background-color: white;
 }
 </style>
