@@ -8,7 +8,7 @@ import type { configType } from './models'
 
 const config: configType = {
   options: [
-    { label: 'Username', type: 'textarea' },
+    { label: 'Username' },
     { label: 'Password' },
     { label: 'Age' },
     { label: 'Address' }
@@ -19,8 +19,6 @@ const config: configType = {
 <style>
 html,
 body {
-  width: 100%;
-  height: 100%;
   background-color: seashell;
 }
 

@@ -1,17 +1,19 @@
 <template>
   <van-form>
-    <van-cell-group inset>
+    <van-cell-group :inset="config.insert">
       <van-field
         v-for="item, index in config.options"
         :key="index"
         :label="item.label"
         :type="item.type"
-        :placeholder="`Please input ${item.label}`"
+        :disabled="item.disabled"
+        :readonly="item.readonly"
+        :center="item.center"
+        :colon="item.colon"
+        :clearable="item.clearable"
+        :placeholder="item.placeholder || `Please input ${item.label}`"
       />
     </van-cell-group>
-    <div>
-      <van-button round block type="primary" native-type="submit">Submit</van-button>
-    </div>
   </van-form>
 </template>
 
