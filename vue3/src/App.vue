@@ -3,17 +3,19 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue'
 import CustomForm from './components/CustomForm.vue'
-import type { configType } from './models'
+import type { configType, dataType } from './models'
 
-const config: configType = {
+const config: configType<dataType> = reactive({
+  data: {} as dataType,
   options: [
-    { label: 'Username' },
-    { label: 'Password' },
-    { label: 'Age' },
-    { label: 'Address' }
+    { name: 'name', label: 'Name' },
+    { name: 'password', label: 'Password' },
+    { name: 'age', label: 'Age' },
+    { name: 'address', label: 'Address' }
   ]
-}
+})
 </script>
 
 <style>
