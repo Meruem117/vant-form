@@ -2,6 +2,7 @@ import type { FieldType } from 'vant'
 
 interface configOptionType {
   name: keyof dataType,
+  slot?: string,
   label: string,
   type?: FieldType,
   placeholder?: string,
@@ -23,5 +24,6 @@ export interface dataType {
   name: string,
   password: string,
   age: number,
-  address: string
+  address: string,
+  slot: string
 }

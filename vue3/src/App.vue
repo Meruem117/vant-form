@@ -1,6 +1,10 @@
 <template>
   <div>
-    <CustomForm :config="config" />
+    <CustomForm :config="config">
+      <template #slot-test>
+        <div>Test Slot</div>
+      </template>
+    </CustomForm>
     <van-button round block type="primary" @click="onClick">Submit</van-button>
   </div>
 </template>
@@ -17,7 +21,8 @@ const config: configType<dataType> = reactive({
     { name: 'name', label: 'Name' },
     { name: 'password', label: 'Password' },
     { name: 'age', label: 'Age' },
-    { name: 'address', label: 'Address' }
+    { name: 'address', label: 'Address' },
+    { name: 'slot', label: 'Slot', slot: 'slot-test' },
   ]
 })
 

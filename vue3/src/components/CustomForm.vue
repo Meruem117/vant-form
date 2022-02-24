@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <van-cell-group :inset="config.insert">
+  <van-cell-group :inset="config.insert">
+    <van-cell v-for="item, index in config.options" :key="index">
+      <slot v-if="item.slot" :name="item.slot" />
       <van-field
-        v-for="item, index in config.options"
-        :key="index"
+        v-else
         v-model="state.data[item.name]"
         :label="item.label"
         :type="item.type"
@@ -14,8 +14,8 @@
         :clearable="item.clearable"
         :placeholder="item.placeholder || `Please input ${item.label}`"
       />
-    </van-cell-group>
-  </div>
+    </van-cell>
+  </van-cell-group>
 </template>
 
 <script setup lang="ts">
