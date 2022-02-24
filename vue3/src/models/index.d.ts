@@ -14,6 +14,7 @@ interface configOptionType {
 
 export interface configType<T> {
   data: T,
+  // setData: (value: T) => void,
   insert?: boolean,
   options: configOptionType[]
 }

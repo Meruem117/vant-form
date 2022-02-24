@@ -1,5 +1,5 @@
 <template>
-  <van-form>
+  <div>
     <van-cell-group :inset="config.insert">
       <van-field
         v-for="item, index in config.options"
@@ -15,24 +15,17 @@
         :placeholder="item.placeholder || `Please input ${item.label}`"
       />
     </van-cell-group>
-    <van-button round block type="primary" @click="onSubmit">Submit</van-button>
-  </van-form>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, onMounted, reactive } from 'vue'
-// import type { FormInstance } from 'vant'
 import type { configType, dataType } from '../models'
 
 const props = defineProps<{ config: configType<dataType> }>()
 const state: { data: dataType } = reactive({
   data: {} as dataType
 })
-// const form = ref<FormInstance>()
-
-function onSubmit() {
-  console.log(state.data)
-}
 
 onMounted(() => state.data = props.config.data)
 </script>

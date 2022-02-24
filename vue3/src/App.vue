@@ -1,5 +1,8 @@
 <template>
-  <CustomForm :config="config" />
+  <div>
+    <CustomForm :config="config" />
+    <van-button round block type="primary" @click="onClick">Submit</van-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +12,7 @@ import type { configType, dataType } from './models'
 
 const config: configType<dataType> = reactive({
   data: {} as dataType,
+  // setData: (data: dataType) => { config.data = data },
   options: [
     { name: 'name', label: 'Name' },
     { name: 'password', label: 'Password' },
@@ -16,6 +20,10 @@ const config: configType<dataType> = reactive({
     { name: 'address', label: 'Address' }
   ]
 })
+
+function onClick() {
+  console.log(config.data)
+}
 </script>
 
 <style>
