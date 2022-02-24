@@ -1,11 +1,11 @@
 <template>
   <div>
-    <CustomForm :config="config">
+    <CustomForm :config="state.config" :data="state.data">
       <template #slot-test>
         <div>Test Slot</div>
       </template>
     </CustomForm>
-    <van-button round block type="primary" @click="onClick">Submit</van-button>
+    <van-button round block type="primary" @click="onSubmit">Submit</van-button>
   </div>
 </template>
 
@@ -14,20 +14,26 @@ import { reactive } from 'vue'
 import CustomForm from './components/CustomForm.vue'
 import type { configType, dataType } from './models'
 
-const config: configType<dataType> = reactive({
+type stateType = {
+  data: dataType,
+  config: configType
+}
+
+const state: stateType = reactive({
   data: {} as dataType,
-  // setData: (data: dataType) => { config.data = data },
-  options: [
-    { name: 'name', label: 'Name' },
-    { name: 'password', label: 'Password' },
-    { name: 'age', label: 'Age' },
-    { name: 'address', label: 'Address' },
-    { name: 'slot', label: 'Slot', slot: 'slot-test' },
-  ]
+  config: {
+    options: [
+      { name: 'name', label: 'Name' },
+      { name: 'password', label: 'Password' },
+      { name: 'age', label: 'Age' },
+      { name: 'address', slot: 'slot-test' },
+      { name: 'city', label: 'City', popupType: 'Picker', columns: ['常州', '扬州'] }
+    ]
+  }
 })
 
-function onClick() {
-  console.log(config.data)
+function onSubmit() {
+  console.log(state.data)
 }
 </script>
 
