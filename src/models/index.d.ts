@@ -2,12 +2,13 @@ import type { FieldType, DatetimePickerType } from 'vant'
 
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
 
-type configOptionType = {
-  name: keyof dataType,
+type configOptionType<T> = {
+  name: keyof T,
   slot?: string,
   fieldType?: FieldType,
-  popupType?: PopupType,
   label?: string,
+  popupType?: PopupType,
+  title?: string,
   columns?: string[],
   dateType?: DatetimePickerType,
   placeholder?: string,
@@ -18,9 +19,9 @@ type configOptionType = {
   clearable?: boolean
 }
 
-export interface configType {
+export interface configType<T> {
   insert?: boolean,
-  options: configOptionType[]
+  options: configOptionType<T>[]
 }
 
 export interface dataType {

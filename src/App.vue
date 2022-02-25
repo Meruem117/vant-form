@@ -16,7 +16,7 @@ import type { configType, dataType } from './models'
 
 type stateType = {
   data: dataType,
-  config: configType
+  config: configType<dataType>
 }
 
 const state: stateType = reactive({
@@ -27,7 +27,8 @@ const state: stateType = reactive({
       { name: 'password', label: 'Password' },
       { name: 'age', label: 'Age' },
       { name: 'address', slot: 'slot-test' },
-      { name: 'city', label: 'City', popupType: 'Picker', columns: ['常州', '扬州'] }
+      { name: 'city', label: 'City', popupType: 'Picker', columns: ['常州', '扬州'] },
+      { name: 'date', label: 'Date', popupType: 'DatetimePicker', dateType: 'date' }
     ]
   }
 })
