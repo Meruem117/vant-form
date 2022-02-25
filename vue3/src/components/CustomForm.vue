@@ -22,6 +22,12 @@
           @confirm="(value: never) => { state.data[item.name] = value, state.show[item.name] = false }"
           @cancel="state.show[item.name] = false"
         />
+        <van-datetime-picker
+          v-if="item.popupType === 'DatetimePicker'"
+          v-model="state.currentDate"
+          @confirm="(value: never) => { state.data[item.name] = value, state.show[item.name] = false }"
+          @cancel="state.show[item.name] = false"
+        />
       </van-popup>
     </van-cell>
   </van-cell-group>
@@ -38,13 +44,15 @@ type propsType = {
 
 type stateType = {
   data: dataType,
-  show: showType
+  show: showType,
+  currentDate: Date
 }
 
 const props = defineProps<propsType>()
 const state: stateType = reactive({
   data: {} as dataType,
-  show: {}
+  show: {},
+  currentDate: new Date()
 })
 
 onMounted(() => state.data = props.data)

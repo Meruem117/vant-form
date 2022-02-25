@@ -1,4 +1,4 @@
-import type { FieldType } from 'vant'
+import type { FieldType, DatetimePickerType } from 'vant'
 
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
 
@@ -9,12 +9,13 @@ type configOptionType = {
   popupType?: PopupType,
   label?: string,
   columns?: string[],
+  dateType?: DatetimePickerType,
   placeholder?: string,
   disabled?: boolean,
   readonly?: boolean,
   center?: boolean,
   colon?: boolean,
-  clearable?: boolean,
+  clearable?: boolean
 }
 
 export interface configType {
@@ -27,7 +28,8 @@ export interface dataType {
   password: string,
   age: number,
   address: string,
-  city: string
+  city: string,
+  date: string
 }
 
 export interface showType {
