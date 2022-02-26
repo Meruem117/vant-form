@@ -16,16 +16,18 @@ import type { configType, dataType } from './models'
 
 type stateType = {
   data: dataType,
-  config: configType<dataType>
+  config: configType
 }
 
 const state: stateType = reactive({
   data: {} as dataType,
   config: {
+    globalClass: 'form',
+    insert: true,
     options: [
       { name: 'name', label: 'Name' },
       { name: 'password', label: 'Password' },
-      { name: 'age', label: 'Age' },
+      { name: 'age', label: 'Age', fieldType: 'number' },
       { name: 'address', slot: 'slot-test' },
       { name: 'city', label: 'City', popupType: 'Picker', columns: ['常州', '扬州'] },
       { name: 'date', label: 'Date', popupType: 'DatetimePicker', dateType: 'date' }
@@ -48,6 +50,11 @@ body {
   display: flex;
   justify-content: center;
   padding: 20px;
+  background-color: #f2f4f6;
+}
+
+.form {
+  margin: 20px;
   background-color: white;
 }
 </style>

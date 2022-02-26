@@ -1,5 +1,5 @@
 <template>
-  <van-cell-group :inset="config.insert">
+  <van-cell-group :inset="config.insert" :class="config.globalClass">
     <van-cell v-for="item, index in props.config.options" :key="index">
       <slot v-if="item.slot" :name="item.slot" />
       <van-field
@@ -19,7 +19,7 @@
         <van-picker
           v-if="item.popupType === 'Picker'"
           :columns="item.columns"
-          @confirm="(value: never) => { state.data[item.name] = value, state.show[item.name] = false }"
+          @confirm="(value: any) => { state.data[item.name] = value, state.show[item.name] = false }"
           @cancel="state.show[item.name] = false"
         />
         <van-datetime-picker
@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { defineProps, onMounted, reactive } from 'vue'
 import type { DatetimePickerType } from 'vant'
-import type { configType, dataType, showType } from '../models'
+import type { configType, dataType } from '../models'
 
 type propsType = {
   data: dataType,
@@ -46,7 +46,7 @@ type propsType = {
 
 type stateType = {
   data: dataType,
-  show: showType,
+  show: { [key: string]: boolean },
   currentDate: Date
 }
 
