@@ -1,4 +1,4 @@
-import type { FieldType, PickerProps, PickerColumn, PickerOption, DatetimePickerType, AreaList } from 'vant'
+import type { FieldType, PickerColumn, PickerOption, DatetimePickerType, AreaList } from 'vant'
 
 export declare type dataType = {
   [key: string]: string | number,
@@ -21,10 +21,10 @@ type ConfigOption<T> = {
   slot?: string,
   fieldType?: FieldType,
   popupType?: PopupType,
-  position?: PopupPosition,
+  popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
   datetimeConfig?: DatetimePickerConfig,
-  areaList?: AreaList,
+  areaConfig?: AreaConfig
 } & FieldConfig
 
 type FieldConfig = {
@@ -36,13 +36,36 @@ type FieldConfig = {
   colon?: boolean,
   clearable?: boolean
 }
-type PickerConfig = {
-  title?: string,
-  columns: (PickerOption | PickerColumn)[]
-} | PickerProps
+
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
-type PopupPosition = 'top' | 'bottom' | 'right' | 'left'
+type PopupConfig = {
+  overlay?: boolean,
+  position?: 'top' | 'bottom' | 'right' | 'left',
+  round?: boolean,
+  closeable?: boolean
+}
+
+type PickerConfig = {
+  columns: (PickerOption | PickerColumn)[],
+  default_index?: number | string,
+} & SharedConfig
+
 type DatetimePickerConfig = {
-  title?: string,
   type?: DatetimePickerType,
+} & SharedConfig
+
+type AreaConfig = {
+  areaList?: AreaList,
+}
+
+type SharedConfig = {
+  title?: string,
+  confirm_button_text?: string,
+  cancel_button_text?: string,
+  toolbar_position?: 'top' | 'bottom',
+  loading?: boolean,
+  show_toolbar?: boolean,
+  item_height?: number | string,
+  visible_item_count?: number | string,
+  swipe_duration?: number | string
 }
