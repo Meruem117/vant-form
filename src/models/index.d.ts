@@ -1,4 +1,4 @@
-import type { FieldType, PickerColumn, DatetimePickerType } from 'vant'
+import type { FieldType, PickerProps, PickerColumn, PickerOption, DatetimePickerType, AreaList } from 'vant'
 
 export declare type dataType = {
   [key: string]: string | number,
@@ -13,18 +13,22 @@ export declare type dataType = {
 export declare type configType<T = dataType> = {
   globalClass?: string,
   insert?: boolean,
-  options: configOptionType<T>[]
+  options: ConfigOption<T>[]
 }
 
-type configOptionType<T> = {
+type ConfigOption<T> = {
   name: keyof T,
   slot?: string,
   fieldType?: FieldType,
-  label?: string,
   popupType?: PopupType,
-  title?: string,
-  columns?: PickerColumn[],
-  dateType?: DatetimePickerType,
+  position?: PopupPosition,
+  pickerConfig?: PickerConfig,
+  datetimeConfig?: DatetimePickerConfig,
+  areaList?: AreaList,
+} & FieldConfig
+
+type FieldConfig = {
+  label?: string,
   placeholder?: string,
   disabled?: boolean,
   readonly?: boolean,
@@ -32,5 +36,13 @@ type configOptionType<T> = {
   colon?: boolean,
   clearable?: boolean
 }
-
+type PickerConfig = {
+  title?: string,
+  columns: (PickerOption | PickerColumn)[]
+} | PickerProps
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
+type PopupPosition = 'top' | 'bottom' | 'right' | 'left'
+type DatetimePickerConfig = {
+  title?: string,
+  type?: DatetimePickerType,
+}

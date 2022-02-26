@@ -15,19 +15,29 @@
         :placeholder="item.placeholder || `Please input ${item.label}`"
         @click="item.popupType ? state.show[item.name] = true : undefined"
       />
-      <van-popup v-if="item.popupType" :show="state.show[item.name]" position="bottom">
+      <van-popup
+        v-if="item.popupType"
+        :show="state.show[item.name]"
+        :position="item.position || 'bottom'"
+      >
         <van-picker
-          v-if="item.popupType === 'Picker'"
-          :columns="item.columns"
-          @confirm="(value: any) => { state.data[item.name] = value, state.show[item.name] = false }"
-          @cancel="state.show[item.name] = false"
+          v-if="item.popupType === 'Picker' && item.pickerConfig"
+          v-bind="{ ...item.pickerConfig }"
+          @confirm="value => confirmPicker(item.name, value)"
+          @cancel="hidePopup(item.name)"
         />
         <van-datetime-picker
-          v-if="item.popupType === 'DatetimePicker'"
+          v-if="item.popupType === 'DatetimePicker' && item.datetimeConfig"
           v-model="state.currentDate"
-          :type="item.dateType"
-          @confirm="onConfirmDatetimePicker(item.name, item.dateType)"
-          @cancel="state.show[item.name] = false"
+          v-bind="{ ...item.datetimeConfig }"
+          @confirm="confirmDatetimePicker(item.name, item.datetimeConfig?.type)"
+          @cancel="hidePopup(item.name)"
+        />
+        <van-area
+          v-if="item.popupType === 'Area'"
+          :area-list="item.areaList || areaList"
+          @confirm="result => confirmArea(item.name, result)"
+          @cancel="hidePopup(item.name)"
         />
       </van-popup>
     </van-cell>
@@ -36,7 +46,8 @@
 
 <script setup lang="ts">
 import { defineProps, onMounted, reactive } from 'vue'
-import type { DatetimePickerType } from 'vant'
+import type { DatetimePickerType, AreaColumnOption } from 'vant'
+import { areaList } from '@vant/area-data'
 import type { configType, dataType } from '../models'
 
 type propsType = {
@@ -57,7 +68,12 @@ const state: stateType = reactive({
   currentDate: new Date()
 })
 
-function onConfirmDatetimePicker(name: keyof dataType, type?: DatetimePickerType) {
+function confirmPicker(key: keyof dataType, value: string) {
+  setData(key, value)
+  hidePopup(key)
+}
+
+function confirmDatetimePicker(key: keyof dataType, type: DatetimePickerType = 'datetime') {
   const { currentDate } = state
   const year = currentDate.getFullYear()
   const month = convertDatetime(currentDate.getMonth() + 1)
@@ -65,35 +81,52 @@ function onConfirmDatetimePicker(name: keyof dataType, type?: DatetimePickerType
   const hour = convertDatetime(currentDate.getHours())
   const minute = convertDatetime(currentDate.getMinutes())
   const second = convertDatetime(currentDate.getSeconds())
-  let result = ''
+  let value = ''
   switch (type) {
     case 'date':
-      result = `${year}-${month}-${day}`
+      value = `${year}-${month}-${day}`
       break
     case 'datehour':
-      result = `${year}-${month}-${day} ${hour}`
+      value = `${year}-${month}-${day} ${hour}`
       break
     case 'datetime':
-      result = `${year}-${month}-${day} ${hour}:${minute}:${second}`
+      value = `${year}-${month}-${day} ${hour}:${minute}:${second}`
       break
     case 'month-day':
-      result = `${month}-${day}`
+      value = `${month}-${day}`
       break
     case 'time':
-      result = `${hour}:${minute}`
+      value = `${hour}:${minute}`
       break
     case 'year-month':
-      result = `${year}-${month}`
+      value = `${year}-${month}`
       break
     default:
-      result = `${year}-${month}-${day} ${hour}:${minute}:${second}`
+      value = `${year}-${month}-${day} ${hour}:${minute}:${second}`
   }
-  state.show[name] = false
-  state.data[name] = result
+  setData(key, value)
+  hidePopup(key)
 }
 
 function convertDatetime(value: number): number | string {
   return value > 9 ? value : '0' + value
+}
+
+function confirmArea(key: keyof dataType, result: AreaColumnOption[]) {
+  const province = result[0].name
+  const city = result[1].name
+  const county = result[2].name
+  const value = city === county ? `${city} ${county}` : `${province} ${city} ${county}`
+  setData(key, value)
+  hidePopup(key)
+}
+
+function setData(key: keyof dataType, value: string | number) {
+  state.data[key] = value
+}
+
+function hidePopup(key: keyof dataType) {
+  state.show[key] = false
 }
 
 onMounted(() => state.data = props.data)
