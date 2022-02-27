@@ -2,65 +2,54 @@
   <van-cell-group :inset="config.insert" :class="config.globalClass">
     <van-cell v-for="item, index in props.config.options" :key="index">
       <slot v-if="item.slot" :name="item.slot" />
-      <van-field
-        v-else
-        v-model="state.data[item.name]"
-        :label="item.label"
-        :type="item.fieldType"
-        :disabled="item.disabled"
-        :readonly="item.readonly || item.popupType !== undefined"
-        :center="item.center"
-        :colon="item.colon"
-        :clearable="item.clearable"
-        :placeholder="item.placeholder || `Please input ${item.label}`"
-        @click="item.popupType ? state.show[item.name] = true : undefined"
-      />
-      <van-popup
-        v-if="item.popupType"
-        :show="state.show[item.name]"
-        v-bind="{ ...item.popupConfig }"
-        :position="item.popupConfig?.position || 'bottom'"
-      >
-        <van-picker
-          v-if="item.popupType === 'Picker' && item.pickerConfig"
-          :columns="item.pickerConfig.columns"
-          :title="item.pickerConfig.title"
-          :confirm-button-text="item.pickerConfig.confirm_button_text"
-          :cancel-button-text="item.pickerConfig.cancel_button_text"
-          :toolbar-position="item.pickerConfig.toolbar_position"
-          :loading="item.pickerConfig.loading"
-          :show-toolbar="item.pickerConfig.show_toolbar"
-          :default-index="item.pickerConfig.default_index"
-          :item-height="item.pickerConfig.item_height"
-          :visible-item-count="item.pickerConfig.visible_item_count"
-          :swipe-duration="item.pickerConfig.swipe_duration"
-          @confirm="value => confirmPicker(item.name, value)"
-          @cancel="hidePopup(item.name)"
+      <div v-else>
+        <van-field
+          v-model="state.data[item.name]"
+          :label="item.label"
+          :type="item.type"
+          :size="item.size"
+          :maxlength="item.maxlength"
+          :placeholder="item.placeholder || `Please input ${item.label}`"
+          :border="item.border"
+          :disabled="item.disabled"
+          :readonly="item.readonly ? item.readonly : item.popupType !== undefined"
+          :colon="item.colon"
+          :required="item.required"
+          :center="item.center"
+          :clearable="item.clearable"
+          :clear-icon="item.clear_icon"
+          :is-link="item.is_link ? item.is_link : item.popupType !== undefined"
+          :show-word-limit="item.show_word_limit"
+          @click="item.popupType ? state.show[item.name] = true : undefined"
         />
-        <van-datetime-picker
-          v-if="item.popupType === 'DatetimePicker'"
-          v-model="state.currentDate"
-          :type="item.datetimeConfig?.type"
-          :title="item.pickerConfig?.title"
-          :confirm-button-text="item.pickerConfig?.confirm_button_text"
-          :cancel-button-text="item.pickerConfig?.cancel_button_text"
-          :toolbar-position="item.pickerConfig?.toolbar_position"
-          :loading="item.pickerConfig?.loading"
-          :show-toolbar="item.pickerConfig?.show_toolbar"
-          :default-index="item.pickerConfig?.default_index"
-          :item-height="item.pickerConfig?.item_height"
-          :visible-item-count="item.pickerConfig?.visible_item_count"
-          :swipe-duration="item.pickerConfig?.swipe_duration"
-          @confirm="confirmDatetimePicker(item.name, item.datetimeConfig?.type)"
-          @cancel="hidePopup(item.name)"
-        />
-        <van-area
-          v-if="item.popupType === 'Area'"
-          :area-list="item.areaConfig?.areaList || areaList"
-          @confirm="result => confirmArea(item.name, result)"
-          @cancel="hidePopup(item.name)"
-        />
-      </van-popup>
+        <van-popup
+          v-if="item.popupType"
+          :show="state.show[item.name]"
+          v-bind="{ ...item.popupConfig }"
+          :position="item.popupConfig?.position || 'bottom'"
+        >
+          <van-picker
+            v-if="item.popupType === 'Picker'"
+            v-bind="{ ...item.pickerConfig }"
+            @confirm="value => confirmPicker(item.name, value)"
+            @cancel="hidePopup(item.name)"
+          />
+          <van-datetime-picker
+            v-if="item.popupType === 'DatetimePicker'"
+            v-model="state.currentDate"
+            v-bind="{ ...item.datetimeConfig }"
+            @confirm="confirmDatetimePicker(item.name, item.datetimeConfig?.type)"
+            @cancel="hidePopup(item.name)"
+          />
+          <van-area
+            v-if="item.popupType === 'Area'"
+            v-bind="{ ...item.areaConfig }"
+            :area-list="item.areaConfig?.['area-list'] || areaList"
+            @confirm="result => confirmArea(item.name, result)"
+            @cancel="hidePopup(item.name)"
+          />
+        </van-popup>
+      </div>
     </van-cell>
   </van-cell-group>
 </template>

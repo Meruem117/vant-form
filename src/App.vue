@@ -27,10 +27,20 @@ const state: stateType = reactive({
     options: [
       { name: 'name', label: 'Name' },
       { name: 'password', label: 'Password' },
-      { name: 'age', label: 'Age', fieldType: 'number' },
+      { name: 'age', label: 'Age' },
       { name: 'address', slot: 'slot-test' },
-      { name: 'city', label: 'City', popupType: 'Picker', pickerConfig: { title: 'picker', columns: ['常州', '扬州'] } },
-      { name: 'date', label: 'Date', popupType: 'DatetimePicker', datetimeConfig: { title: 'datetime', type: 'date' } },
+      {
+        name: 'city', label: 'City', popupType: 'Picker',
+        pickerConfig: {
+          title: 'picker', columns: ['常州', '扬州'], 'default-index': 1
+        }
+      },
+      {
+        name: 'date', label: 'Date', popupType: 'DatetimePicker',
+        datetimeConfig: {
+          title: 'datetime', type: 'date'
+        }
+      },
       { name: 'area', label: 'Area', popupType: 'Area' }
     ]
   }

@@ -1,4 +1,5 @@
-import type { FieldType, PickerColumn, PickerOption, DatetimePickerType, AreaList } from 'vant'
+import { DelimiterCasedProperties } from 'type-fest'
+import type { FieldType as BaseFieldType, CellSize, PickerColumn, PickerOption, DatetimePickerType, AreaList } from 'vant'
 
 export declare type dataType = {
   [key: string]: string | number,
@@ -29,14 +30,23 @@ type ConfigOption<T> = {
 
 type FieldConfig = {
   label?: string,
+  type?: BaseFieldType,
+  size?: CellSize,
+  maxlength?: number | string,
   placeholder?: string,
+  border?: boolean,
   disabled?: boolean,
   readonly?: boolean,
-  center?: boolean,
   colon?: boolean,
-  clearable?: boolean
+  required?: boolean,
+  center?: boolean,
+  clearable?: boolean,
+  clear_icon?: string,
+  is_link?: boolean,
+  show_word_limit?: boolean
 }
 
+type FieldType = 'Text'
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
 type PopupConfig = {
   overlay?: boolean,
@@ -46,26 +56,38 @@ type PopupConfig = {
 }
 
 type PickerConfig = {
-  columns: (PickerOption | PickerColumn)[],
-  default_index?: number | string,
-} & SharedConfig
+  columns?: (PickerOption | PickerColumn)[],
+  'columns-field-names'?: object,
+  'allow-html'?: boolean,
+  'default-index'?: number | string,
+} & SharedPickerConfig
 
 type DatetimePickerConfig = {
   type?: DatetimePickerType,
-} & SharedConfig
+  filter?: (type: string, values: string[]) => string[],
+  formatter?: (type: string, value: string) => string,
+  'columns-order'?: string[]
+} & SharedPickerConfig
 
 type AreaConfig = {
-  areaList?: AreaList,
+  value?: string,
+  'area-list'?: AreaList,
+  'columns-placeholder'?: string[],
+  'columns-num'?: number | string,
+  'is-oversea-code'?: () => boolean
+} & SharedPickerConfig
+
+type SharedPickerConfig = {
+  title?: string,
+  'confirm-button-text'?: string,
+  'cancel-button-text'?: string,
+  'toolbar-position'?: 'top' | 'bottom',
+  'show-toolbar'?: boolean,
+  loading?: boolean,
+  readonly?: boolean,
+  'item-height'?: number | string,
+  'visible-item-count'?: number | string,
+  'swipe-duration'?: number | string
 }
 
-type SharedConfig = {
-  title?: string,
-  confirm_button_text?: string,
-  cancel_button_text?: string,
-  toolbar_position?: 'top' | 'bottom',
-  loading?: boolean,
-  show_toolbar?: boolean,
-  item_height?: number | string,
-  visible_item_count?: number | string,
-  swipe_duration?: number | string
-}
+type KebabCasedProperties<Value> = DelimiterCasedProperties<Value, '-'>;
