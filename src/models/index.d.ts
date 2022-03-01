@@ -1,5 +1,8 @@
 import { DelimiterCasedProperties } from 'type-fest'
-import type { FieldType as BaseFieldType, CellSize, PickerColumn, PickerOption, DatetimePickerType, AreaList } from 'vant'
+import type {
+  FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
+  PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList
+} from 'vant'
 
 export declare type dataType = {
   [key: string]: string | number,
@@ -21,16 +24,32 @@ type ConfigOption<T> = {
   name: keyof T,
   slot?: string,
   fieldType?: FieldType,
+  fieldConfig?: FieldConfig,
   popupType?: PopupType,
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
   datetimeConfig?: DatetimePickerConfig,
   areaConfig?: AreaConfig
-} & FieldConfig
+} & FieldBaseConfig
+
+type FieldType = 'Text'
+type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
+
+type FieldBaseConfig = {
+  label?: string,
+  placeholder?: string,
+  disabled?: boolean,
+  readonly?: boolean,
+  required?: boolean,
+  clearable?: boolean,
+  is_link?: boolean,
+  left_icon?: string,
+  right_icon?: string,
+  rules?: FieldRule[]
+}
 
 type FieldConfig = {
-  label?: string,
-  type?: BaseFieldType,
+  type?: FieldBaseType,
   size?: CellSize,
   maxlength?: number | string,
   placeholder?: string,
@@ -41,18 +60,50 @@ type FieldConfig = {
   required?: boolean,
   center?: boolean,
   clearable?: boolean,
-  clear_icon?: string,
-  is_link?: boolean,
-  show_word_limit?: boolean
+  'clear-icon'?: string,
+  'clear-trigger'?: FieldClearTrigger,
+  clickable?: boolean,
+  'is-link'?: boolean,
+  autofocus?: boolean,
+  'show-word-limit'?: boolean,
+  error?: boolean,
+  'error-message'?: string,
+  'error-message-align'?: FieldTextAlign,
+  formatter?: (val: string) => string,
+  'format-trigger'?: FieldFormatTrigger,
+  'arrow-direction'?: 'left' | 'up' | 'down' | 'right',
+  'label-class'?: string | Array | object,
+  'label-width'?: number | string,
+  'label-align'?: FieldTextAlign,
+  'input-align'?: FieldTextAlign,
+  autosize?: boolean | FieldAutosizeConfig,
+  'left-icon'?: string,
+  'right-icon'?: string,
+  'icon-prefix'?: string,
+  rules?: FieldRule[],
+  autocomplete?: string
 }
 
-type FieldType = 'Text'
-type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
 type PopupConfig = {
   overlay?: boolean,
-  position?: 'top' | 'bottom' | 'right' | 'left',
+  position?: PopupPosition,
+  'overlay-class'?: string | Array | object,
+  'overlay-style'?: object,
+  duration?: number | string,
   round?: boolean,
-  closeable?: boolean
+  'lock-scroll'?: boolean,
+  'lazy-render'?: boolean,
+  'close-on-popstate'?: boolean,
+  'close-on-click-overlay'?: boolean,
+  closeable?: boolean,
+  'close-icon'?: string,
+  'close-icon-position'?: PopupCloseIconPosition,
+  'before-close'?: (action: string) => boolean | Promise<boolean>,
+  'icon-prefix'?: string,
+  transition?: string,
+  'transition-appear'?: boolean,
+  teleport?: string | Element,
+  'safe-area-inset-bottom'?: boolean
 }
 
 type PickerConfig = {
@@ -66,7 +117,13 @@ type DatetimePickerConfig = {
   type?: DatetimePickerType,
   filter?: (type: string, values: string[]) => string[],
   formatter?: (type: string, value: string) => string,
-  'columns-order'?: string[]
+  'columns-order'?: string[],
+  'min-date'?: Date,
+  'max-date'?: Date,
+  'min-hour'?: number | string,
+  'max-hour'?: number | string,
+  'min-minute'?: number | string,
+  'max-minute'?: number | string
 } & SharedPickerConfig
 
 type AreaConfig = {
@@ -81,7 +138,7 @@ type SharedPickerConfig = {
   title?: string,
   'confirm-button-text'?: string,
   'cancel-button-text'?: string,
-  'toolbar-position'?: 'top' | 'bottom',
+  'toolbar-position'?: PickerToolbarPosition,
   'show-toolbar'?: boolean,
   loading?: boolean,
   readonly?: boolean,
@@ -90,4 +147,4 @@ type SharedPickerConfig = {
   'swipe-duration'?: number | string
 }
 
-type KebabCasedProperties<Value> = DelimiterCasedProperties<Value, '-'>;
+export type KebabCasedProperties<Value> = DelimiterCasedProperties<Value, '-'>;

@@ -2,26 +2,24 @@
   <van-cell-group :inset="config.insert" :class="config.globalClass">
     <van-cell v-for="item, index in props.config.options" :key="index">
       <slot v-if="item.slot" :name="item.slot" />
-      <div v-else>
+      <template v-else>
         <van-field
           v-model="state.data[item.name]"
+          v-bind="{ ...item.fieldConfig }"
           :label="item.label"
-          :type="item.type"
-          :size="item.size"
-          :maxlength="item.maxlength"
           :placeholder="item.placeholder || `Please input ${item.label}`"
-          :border="item.border"
           :disabled="item.disabled"
-          :readonly="item.readonly ? item.readonly : item.popupType !== undefined"
-          :colon="item.colon"
+          :readonly="item.readonly !== undefined ? item.readonly : item.popupType !== undefined"
           :required="item.required"
-          :center="item.center"
           :clearable="item.clearable"
-          :clear-icon="item.clear_icon"
-          :is-link="item.is_link ? item.is_link : item.popupType !== undefined"
-          :show-word-limit="item.show_word_limit"
+          :is-link="item.is_link !== undefined ? item.is_link : item.popupType !== undefined"
+          :left-icon="item.left_icon"
+          :right-icon="item.right_icon"
+          :rules="item.rules"
           @click="item.popupType ? state.show[item.name] = true : undefined"
-        />
+        >
+          <template></template>
+        </van-field>
         <van-popup
           v-if="item.popupType"
           :show="state.show[item.name]"
@@ -49,7 +47,7 @@
             @cancel="hidePopup(item.name)"
           />
         </van-popup>
-      </div>
+      </template>
     </van-cell>
   </van-cell-group>
 </template>
@@ -144,3 +142,4 @@ onMounted(() => state.data = props.data)
 
 <style scoped>
 </style>
+
