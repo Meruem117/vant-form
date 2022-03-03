@@ -147,4 +147,4 @@ type SharedPickerConfig = {
   'swipe-duration'?: number | string
 }
 
-export type KebabCasedProperties<Value> = DelimiterCasedProperties<Value, '-'>;
+export type KebabCasedProperties<Value> = DelimiterCasedProperties<Value, '-'>
