@@ -27,6 +27,7 @@ type ConfigOption<T> = {
   name: keyof T,
   slot?: string,
   fieldType?: FieldType,
+  inline?: boolean,
   fieldConfig?: FieldConfig,
   radioConfig?: RadioGroupConfig,
   checkboxConfig?: CheckboxGroupConfig,
@@ -118,7 +119,6 @@ type SharedBoxConfig = {
 } & SharedBoxGroupConfig
 
 type SharedBoxGroupConfig = {
-  inline?: boolean,
   disabled?: boolean,
   'icon-size'?: number | string,
   'checked-color'?: string

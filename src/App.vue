@@ -30,8 +30,8 @@ const state: stateType = reactive({
       { name: 'age', label: 'Age' },
       { name: 'address', slot: 'slot-test' },
       {
-        name: 'gender', label: 'Gender', fieldType: 'Radio',
-        radioConfig: { options: [{ label: 'Male' }, { label: 'Female' }] }
+        name: 'gender', label: 'Gender', fieldType: 'Radio', inline: true,
+        radioConfig: { options: [{ label: 'Male' }, { label: 'Female' }], direction: 'horizontal' }
       },
       {
         name: 'hobby', label: 'Hobby', fieldType: 'Checkbox',

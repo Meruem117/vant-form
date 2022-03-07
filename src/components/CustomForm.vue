@@ -4,9 +4,10 @@
       <slot v-if="item.slot" :name="item.slot" />
       <template v-else>
         <van-field
+          v-if="item.inline !== false"
           v-model="state.data[item.name]"
           v-bind="{ ...item.fieldConfig }"
-          :label="item.label"
+          :label="item.label || item.name"
           :placeholder="item.placeholder || `Please input ${item.label}`"
           :disabled="item.disabled"
           :readonly="item.readonly !== undefined ? item.readonly : item.popupType !== undefined"
@@ -18,20 +19,20 @@
           :rules="item.rules"
           @click="item.popupType ? state.show[item.name] = true : undefined"
         >
-          <template v-if="item.fieldType === 'Radio' && item.radioConfig?.inline" #input>
-            <van-radio-group v-model="state.data[item.name]" v-bind="{ ...item.radioConfig }">
-              <div v-for="opt, idx in item.radioConfig?.options" :key="`${item.name}-${idx}`">
-                <van-radio v-bind="{ ...opt }" :name="opt.name || idx">{{ opt.label }}</van-radio>
-              </div>
+          <template v-if="item.fieldType !== 'Text' && item.inline" #input>
+            <van-radio-group
+              v-if="item.fieldType === 'Radio'"
+              v-model="state.data[item.name]"
+              v-bind="{ ...item.radioConfig }"
+            >
+              <van-radio
+                v-for="opt, idx in item.radioConfig?.options"
+                :key="`${item.name}-${idx}`"
+                v-bind="{ ...opt }"
+                :name="opt.name !== undefined ? opt.name : idx.toString()"
+              >{{ opt.label }}</van-radio>
             </van-radio-group>
           </template>
-          <div v-if="item.fieldType === 'Radio' && !item.radioConfig?.inline">
-            <van-radio-group v-model="state.data[item.name]" v-bind="{ ...item.radioConfig }">
-              <div v-for="opt, idx in item.radioConfig?.options" :key="`${item.name}-${idx}`">
-                <van-radio v-bind="{ ...opt }" :name="opt.name || idx">{{ opt.label }}</van-radio>
-              </div>
-            </van-radio-group>
-          </div>
         </van-field>
         <van-popup
           v-if="item.popupType"
@@ -150,7 +151,7 @@ function hidePopup(key: keyof dataType) {
   state.show[key] = false
 }
 
-onMounted(() => state.data = props.data)
+onMounted(() => { state.data = props.data })
 </script>
 
 <style scoped>
