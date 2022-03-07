@@ -1,6 +1,7 @@
 import { DelimiterCasedProperties } from 'type-fest'
 import type {
   FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
+  RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection,
   PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList
 } from 'vant'
 
@@ -9,6 +10,8 @@ export declare type dataType = {
   name: string,
   password: string,
   age: number,
+  gender: number,
+  hobby: number[],
   address: string,
   city: string,
   date: string
@@ -25,6 +28,8 @@ type ConfigOption<T> = {
   slot?: string,
   fieldType?: FieldType,
   fieldConfig?: FieldConfig,
+  radioConfig?: RadioGroupConfig,
+  checkboxConfig?: CheckboxGroupConfig,
   popupType?: PopupType,
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
@@ -32,8 +37,8 @@ type ConfigOption<T> = {
   areaConfig?: AreaConfig
 } & FieldBaseConfig
 
-type FieldType = 'Text'
-type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar'
+type FieldType = 'Text' | 'Radio' | 'Checkbox'
+type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar' | 'Cascader'
 
 type FieldBaseConfig = {
   label?: string,
@@ -82,6 +87,41 @@ type FieldConfig = {
   'icon-prefix'?: string,
   rules?: FieldRule[],
   autocomplete?: string
+}
+
+type RadioConfig = {
+  shape?: RadioShape,
+  'label-position'?: RadioLabelPosition
+} & SharedBoxConfig
+
+type RadioGroupConfig = {
+  options?: RadioConfig[],
+  direction?: RadioGroupDirection
+} & SharedBoxGroupConfig
+
+type CheckboxConfig = {
+  shape?: CheckboxShape,
+  'bind-group'?: boolean,
+  'label-position'?: CheckboxLabelPosition
+} & SharedBoxConfig
+
+type CheckboxGroupConfig = {
+  options?: CheckboxConfig[],
+  max?: number | string,
+  direction?: CheckboxGroupDirection,
+} & SharedBoxGroupConfig
+
+type SharedBoxConfig = {
+  name?: number | string,
+  label?: number | string,
+  'label-disabled'?: boolean,
+} & SharedBoxGroupConfig
+
+type SharedBoxGroupConfig = {
+  inline?: boolean,
+  disabled?: boolean,
+  'icon-size'?: number | string,
+  'checked-color'?: string
 }
 
 type PopupConfig = {

@@ -18,7 +18,20 @@
           :rules="item.rules"
           @click="item.popupType ? state.show[item.name] = true : undefined"
         >
-          <template></template>
+          <template v-if="item.fieldType === 'Radio' && item.radioConfig?.inline" #input>
+            <van-radio-group v-model="state.data[item.name]" v-bind="{ ...item.radioConfig }">
+              <div v-for="opt, idx in item.radioConfig?.options" :key="`${item.name}-${idx}`">
+                <van-radio v-bind="{ ...opt }" :name="opt.name || idx">{{ opt.label }}</van-radio>
+              </div>
+            </van-radio-group>
+          </template>
+          <div v-if="item.fieldType === 'Radio' && !item.radioConfig?.inline">
+            <van-radio-group v-model="state.data[item.name]" v-bind="{ ...item.radioConfig }">
+              <div v-for="opt, idx in item.radioConfig?.options" :key="`${item.name}-${idx}`">
+                <van-radio v-bind="{ ...opt }" :name="opt.name || idx">{{ opt.label }}</van-radio>
+              </div>
+            </van-radio-group>
+          </div>
         </van-field>
         <van-popup
           v-if="item.popupType"
