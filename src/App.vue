@@ -35,7 +35,7 @@ const state: stateType = reactive({
       },
       {
         name: 'hobby', label: 'Hobby', fieldType: 'Checkbox',
-        checkboxConfig: { options: [{ label: 'Basketball' }, { label: 'Football' }, { label: 'Baseball' }] }
+        checkboxConfig: { options: [{ label: 'Basketball' }, { label: 'Football' }], direction: 'horizontal' }
       },
       {
         name: 'city', label: 'City', popupType: 'Picker',

@@ -19,7 +19,7 @@
           :rules="item.rules"
           @click="item.popupType ? state.show[item.name] = true : undefined"
         >
-          <template v-if="item.fieldType !== 'Text' && item.inline" #input>
+          <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
             <van-radio-group
               v-if="item.fieldType === 'Radio'"
               v-model="state.data[item.name]"
@@ -32,8 +32,25 @@
                 :name="opt.name !== undefined ? opt.name : idx.toString()"
               >{{ opt.label }}</van-radio>
             </van-radio-group>
+            <van-checkbox-group
+              v-if="item.fieldType === 'Checkbox'"
+              v-model="state.array[item.name]"
+              v-bind="{ ...item.checkboxConfig }"
+            >
+              <van-checkbox
+                v-for="opt, idx in item.checkboxConfig?.options"
+                :key="`${item.name}-${idx}`"
+                v-bind="{ ...opt }"
+                :name="opt.name !== undefined ? opt.name : idx.toString()"
+                :shape="opt.shape || 'square'"
+                @click="onCheckboxClick(item.name)"
+              >{{ opt.label }}</van-checkbox>
+            </van-checkbox-group>
           </template>
         </van-field>
+        <div v-else>
+          <div>{{ item.label }}</div>
+        </div>
         <van-popup
           v-if="item.popupType"
           :show="state.show[item.name]"
@@ -80,6 +97,7 @@ type propsType = {
 type stateType = {
   data: dataType,
   show: { [key: string]: boolean },
+  array: { [key: string]: string[] | number[] },
   currentDate: Date
 }
 
@@ -87,8 +105,13 @@ const props = defineProps<propsType>()
 const state: stateType = reactive({
   data: {} as dataType,
   show: {},
+  array: {},
   currentDate: new Date()
 })
+
+function onCheckboxClick(key: keyof dataType) {
+  state.data[key] = state.array[key]
+}
 
 function confirmPicker(key: keyof dataType, value: string) {
   setData(key, value)
