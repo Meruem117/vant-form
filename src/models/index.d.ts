@@ -1,4 +1,4 @@
-import { DelimiterCasedProperties } from 'type-fest'
+import { CamelCase, DelimiterCasedPropertiesDeep } from 'type-fest'
 import type {
   FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
   RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection,
@@ -6,12 +6,12 @@ import type {
 } from 'vant'
 
 export declare type dataType = {
-  [key: string]: unknown,
+  [key: string]: string | number,
   name: string,
   password: string,
   age: number,
   gender: string,
-  hobby: string[],
+  hobby: string,
   address: string,
   city: string,
   date: string
@@ -113,7 +113,7 @@ type CheckboxGroupConfig = {
 } & SharedBoxGroupConfig
 
 type SharedBoxConfig = {
-  name?: unknown,
+  name?: string,
   label?: number | string,
   'label-disabled'?: boolean,
 } & SharedBoxGroupConfig
@@ -187,4 +187,14 @@ type SharedPickerConfig = {
   'swipe-duration'?: number | string
 }
 
-export type KebabCasedProperties<Value> = DelimiterCasedProperties<Value, '-'>
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type CamelCasedPropertiesDeep<Value> = Value extends Function
+  ? Value
+  : Value extends Array<infer U>
+  ? Array<CamelCasedPropertiesDeep<U>>
+  : Value extends Set<infer U>
+  ? Set<CamelCasedPropertiesDeep<U>> : {
+    [K in keyof Value as CamelCase<K>]: CamelCasedPropertiesDeep<Value[K]>;
+  }
+
+export type KebabCasedProperties<Value> = DelimiterCasedPropertiesDeep<Value, '-'>

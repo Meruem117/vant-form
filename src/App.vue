@@ -20,7 +20,7 @@ type stateType = {
 }
 
 const state: stateType = reactive({
-  data: {} as dataType,
+  data: { hobby: '0,1' } as dataType,
   config: {
     globalClass: 'form',
     insert: true,

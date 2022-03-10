@@ -20,6 +20,7 @@
           @click="item.popupType ? state.show[item.name] = true : undefined"
         >
           <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
+            <!-- Radio -->
             <van-radio-group
               v-if="item.fieldType === 'Radio'"
               v-model="state.data[item.name]"
@@ -32,6 +33,7 @@
                 :name="opt.name !== undefined ? opt.name : idx.toString()"
               >{{ opt.label }}</van-radio>
             </van-radio-group>
+            <!-- Checkbox -->
             <van-checkbox-group
               v-if="item.fieldType === 'Checkbox'"
               v-model="state.array[item.name]"
@@ -51,18 +53,21 @@
         <div v-else>
           <div>{{ item.label }}</div>
         </div>
+        <!-- Popup -->
         <van-popup
           v-if="item.popupType"
           :show="state.show[item.name]"
           v-bind="{ ...item.popupConfig }"
           :position="item.popupConfig?.position || 'bottom'"
         >
+          <!-- Picker -->
           <van-picker
             v-if="item.popupType === 'Picker'"
             v-bind="{ ...item.pickerConfig }"
             @confirm="value => confirmPicker(item.name, value)"
             @cancel="hidePopup(item.name)"
           />
+          <!-- DatetimePicker -->
           <van-datetime-picker
             v-if="item.popupType === 'DatetimePicker'"
             v-model="state.currentDate"
@@ -70,6 +75,7 @@
             @confirm="confirmDatetimePicker(item.name, item.datetimeConfig?.type)"
             @cancel="hidePopup(item.name)"
           />
+          <!-- Area -->
           <van-area
             v-if="item.popupType === 'Area'"
             v-bind="{ ...item.areaConfig }"
@@ -110,7 +116,7 @@ const state: stateType = reactive({
 })
 
 function onCheckboxClick(key: keyof dataType) {
-  state.data[key] = state.array[key]
+  state.data[key] = state.array[key].join(',')
 }
 
 function confirmPicker(key: keyof dataType, value: string) {
@@ -174,7 +180,14 @@ function hidePopup(key: keyof dataType) {
   state.show[key] = false
 }
 
-onMounted(() => { state.data = props.data })
+onMounted(() => {
+  state.data = props.data
+  props.config.options.forEach(option => {
+    if (option.fieldType === 'Checkbox' && typeof state.data[option.name] === 'string') {
+      state.array[option.name] = state.data[option.name].split(',')
+    }
+  })
+})
 </script>
 
 <style scoped>
