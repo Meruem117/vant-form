@@ -93,8 +93,9 @@
 import { defineProps, onMounted, reactive } from 'vue'
 import type { DatetimePickerType, AreaColumnOption } from 'vant'
 import { areaList } from '@vant/area-data'
-import type { Data } from '../models'
-import type { Config } from '../models/types'
+import type { Data } from '@/models'
+import type { Config } from '@/models/types'
+// import { } from '@/utils'
 
 type propsType = {
   data: Data,
@@ -184,10 +185,12 @@ function hidePopup(key: keyof Data) {
 onMounted(() => {
   state.data = props.data
   props.config.options.forEach(option => {
+    if (state.data[option.name] === undefined && option.default !== undefined) {
+      state.data[option.name] = option.default
+    }
     if (option.fieldType === 'Checkbox') {
       state.array[option.name] = state.data[option.name].toString().split(',')
     }
-    state.data[option.name] = option.default || ''
   })
 })
 </script>

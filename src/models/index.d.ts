@@ -3,7 +3,7 @@ export interface Data {
   name: string,
   password: string,
   age: number,
-  gender: string,
+  gender: number,
   hobby: string,
   address: string,
   city: string,

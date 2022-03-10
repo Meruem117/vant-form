@@ -11,9 +11,9 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import CustomForm from './components/CustomForm.vue'
-import type { Data } from './models'
-import type { Config } from './models/types'
+import CustomForm from '@/components/CustomForm.vue'
+import type { Data } from '@/models'
+import type { Config } from '@/models/types'
 
 type stateType = {
   data: Data,
@@ -21,7 +21,7 @@ type stateType = {
 }
 
 const state: stateType = reactive({
-  data: { hobby: '0,1' } as Data,
+  data: {} as Data,
   config: {
     globalClass: 'form',
     insert: true,
