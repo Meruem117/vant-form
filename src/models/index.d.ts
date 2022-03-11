@@ -6,12 +6,12 @@ import type {
 } from 'vant'
 
 export declare type dataType = {
-  [key: string]: unknown,
+  [key: string]: string | number,
   name: string,
   password: string,
   age: number,
   gender: string,
-  hobby: string[],
+  hobby: string,
   address: string,
   city: string,
   date: string
@@ -113,7 +113,7 @@ type CheckboxGroupConfig = {
 } & SharedBoxGroupConfig
 
 type SharedBoxConfig = {
-  name?: unknown,
+  name?: string,
   label?: number | string,
   'label-disabled'?: boolean,
 } & SharedBoxGroupConfig
