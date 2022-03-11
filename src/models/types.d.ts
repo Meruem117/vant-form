@@ -4,14 +4,15 @@ import type {
   RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection,
   PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList, CascaderOption, CascaderFieldNames
 } from 'vant'
+import { Data } from './index'
 
-export declare type Config<T> = {
+export declare type Config<T = Data> = {
   globalClass?: string,
   insert?: boolean,
   options: ConfigOption<T>[]
 }
 
-type ConfigOption<T> = {
+export declare type ConfigOption<T = Data> = {
   name: keyof T,
   default?: string | number,
   slot?: string,

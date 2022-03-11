@@ -6,7 +6,7 @@
         <van-field
           v-if="item.inline !== false"
           v-model="state.data[item.name]"
-          v-bind="{ ...item.fieldConfig }"
+          v-bind="item.fieldConfig"
           :label="item.label || item.name"
           :placeholder="item.placeholder || `Please input ${item.label}`"
           :disabled="item.disabled"
@@ -21,7 +21,8 @@
         >
           <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
             <!-- Radio - inline -->
-            <van-radio-group
+            <CustomRadio :data="state.data[item.name]" :config="item" :set="setData" />
+            <!-- <van-radio-group
               v-if="item.fieldType === 'Radio'"
               v-model="state.data[item.name]"
               v-bind="{ ...item.radioConfig }"
@@ -33,17 +34,17 @@
                 :name="opt.name !== undefined ? opt.name : idx.toString()"
                 class="base-box"
               >{{ opt.label }}</van-radio>
-            </van-radio-group>
-            <!-- Checkbox - outbox -->
+            </van-radio-group>-->
+            <!-- Checkbox - inline -->
             <van-checkbox-group
               v-if="item.fieldType === 'Checkbox'"
               v-model="state.array[item.name]"
-              v-bind="{ ...item.checkboxConfig }"
+              v-bind="item.checkboxConfig"
             >
               <van-checkbox
                 v-for="opt, idx in item.checkboxConfig?.options"
                 :key="`${item.name}-${idx}`"
-                v-bind="{ ...opt }"
+                v-bind="opt"
                 :name="opt.name !== undefined ? opt.name : idx.toString()"
                 :shape="opt.shape || 'square'"
                 @click="onCheckboxClick(item.name)"
@@ -54,16 +55,17 @@
         </van-field>
         <div v-else>
           <van-cell :title="item.label || item.name" :border="false" />
+          <!-- Radio - outbox -->
           <van-radio-group
             v-if="item.fieldType === 'Radio'"
             v-model="state.data[item.name]"
-            v-bind="{ ...item.radioConfig }"
+            v-bind="item.radioConfig"
             class="base-box-group"
           >
             <van-radio
               v-for="opt, idx in item.radioConfig?.options"
               :key="`${item.name}-${idx}`"
-              v-bind="{ ...opt }"
+              v-bind="opt"
               :name="opt.name !== undefined ? opt.name : idx.toString()"
               class="base-box"
             >{{ opt.label }}</van-radio>
@@ -72,13 +74,13 @@
           <van-checkbox-group
             v-if="item.fieldType === 'Checkbox'"
             v-model="state.array[item.name]"
-            v-bind="{ ...item.checkboxConfig }"
+            v-bind="item.checkboxConfig"
             class="base-box-group"
           >
             <van-checkbox
               v-for="opt, idx in item.checkboxConfig?.options"
               :key="`${item.name}-${idx}`"
-              v-bind="{ ...opt }"
+              v-bind="opt"
               :name="opt.name !== undefined ? opt.name : idx.toString()"
               :shape="opt.shape || 'square'"
               @click="onCheckboxClick(item.name)"
@@ -90,13 +92,13 @@
         <van-popup
           v-if="item.popupType"
           :show="state.show[item.name]"
-          v-bind="{ ...item.popupConfig }"
+          v-bind="item.popupConfig"
           :position="item.popupConfig?.position || 'bottom'"
         >
           <!-- Picker -->
           <van-picker
             v-if="item.popupType === 'Picker'"
-            v-bind="{ ...item.pickerConfig }"
+            v-bind="item.pickerConfig"
             @confirm="value => confirmPicker(item.name, value)"
             @cancel="hidePopup(item.name)"
           />
@@ -104,14 +106,14 @@
           <van-datetime-picker
             v-if="item.popupType === 'DatetimePicker'"
             v-model="state.currentDate"
-            v-bind="{ ...item.datetimeConfig }"
+            v-bind="item.datetimeConfig"
             @confirm="confirmDatetimePicker(item.name, item.datetimeConfig?.type)"
             @cancel="hidePopup(item.name)"
           />
           <!-- Area -->
           <van-area
             v-if="item.popupType === 'Area'"
-            v-bind="{ ...item.areaConfig }"
+            v-bind="item.areaConfig"
             :area-list="item.areaConfig?.['area-list'] || areaList"
             @confirm="result => confirmArea(item.name, result)"
             @cancel="hidePopup(item.name)"
@@ -120,7 +122,7 @@
           <van-cascader
             v-if="item.popupType === 'Cascader'"
             v-model="state.data[item.name]"
-            v-bind="{ ...item.cascaderConfig }"
+            v-bind="item.cascaderConfig"
             @finish="data => confirmCascader(item.name, data)"
             @close="hidePopup(item.name)"
           />
@@ -134,6 +136,7 @@
 import { defineProps, onMounted, reactive } from 'vue'
 import type { DatetimePickerType, AreaColumnOption, CascaderOption } from 'vant'
 import { areaList } from '@vant/area-data'
+import CustomRadio from './CustomRadio.vue'
 import type { Data } from '@/models'
 import type { Config } from '@/models/types'
 
