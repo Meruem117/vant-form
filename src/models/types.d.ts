@@ -2,7 +2,7 @@ import { CamelCase, DelimiterCasedPropertiesDeep } from 'type-fest'
 import type {
   FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
   RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection,
-  PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList
+  PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList, CascaderOption, CascaderFieldNames
 } from 'vant'
 
 export declare type Config<T> = {
@@ -24,11 +24,12 @@ type ConfigOption<T> = {
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
   datetimeConfig?: DatetimePickerConfig,
+  cascaderConfig?: CascaderConfig,
   areaConfig?: AreaConfig
 } & FieldBaseConfig
 
 type FieldType = 'Text' | 'Radio' | 'Checkbox'
-type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Calendar' | 'Cascader'
+type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Cascader' | 'Calendar'
 
 type FieldBaseConfig = {
   label?: string,
@@ -174,6 +175,19 @@ type SharedPickerConfig = {
   'item-height'?: number | string,
   'visible-item-count'?: number | string,
   'swipe-duration'?: number | string
+}
+
+type CascaderConfig = {
+  title?: string,
+  value?: string | number,
+  options: CascaderOption[],
+  placeholder?: string,
+  'active-color'?: string,
+  swipeable?: boolean,
+  closeable?: boolean,
+  'show-header'?: boolean,
+  'close-icon'?: string,
+  'field-names'?: CascaderFieldNames
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

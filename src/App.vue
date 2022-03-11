@@ -35,8 +35,8 @@ const state: stateType = reactive({
         radioConfig: { options: [{ label: 'Male' }, { label: 'Female' }], direction: 'horizontal' }
       },
       {
-        name: 'hobby', label: 'Hobby', fieldType: 'Checkbox',
-        checkboxConfig: { options: [{ label: 'Basketball' }, { label: 'Football' }], direction: 'horizontal' }
+        name: 'hobby', label: 'Hobby', fieldType: 'Checkbox', inline: false,
+        checkboxConfig: { options: [{ label: 'Basketball' }, { label: 'Football' }] }
       },
       {
         name: 'city', label: 'City', popupType: 'Picker',
@@ -46,7 +46,16 @@ const state: stateType = reactive({
         name: 'date', label: 'Date', popupType: 'DatetimePicker',
         datetimeConfig: { title: 'datetime', type: 'date' }
       },
-      { name: 'area', label: 'Area', popupType: 'Area' }
+      { name: 'area', label: 'Area', popupType: 'Area' },
+      {
+        name: 'place', label: 'Place', popupType: 'Cascader',
+        cascaderConfig: {
+          title: 'cascader', options: [
+            { text: '上海', value: '上海', children: [{ text: '上海市', value: '上海市' }] },
+            { text: '北京', value: '北京', children: [{ text: '北京市', value: '北京市' }] }
+          ]
+        }
+      }
     ]
   }
 })
