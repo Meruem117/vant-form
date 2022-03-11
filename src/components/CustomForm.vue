@@ -93,15 +93,17 @@
 import { defineProps, onMounted, reactive, computed } from 'vue'
 import type { DatetimePickerType, AreaColumnOption } from 'vant'
 import { areaList } from '@vant/area-data'
-import type { configType, dataType } from '../models'
+import type { Data } from '@/models'
+import type { Config } from '@/models/types'
+// import { } from '@/utils'
 
 type propsType = {
-  data: dataType,
-  config: configType<dataType>
+  data: Data,
+  config: Config<Data>
 }
 
 type stateType = {
-  data: dataType,
+  data: Data,
   show: { [key: string]: boolean },
   array: { [key: string]: string[] | number[] },
   currentDate: Date
@@ -109,22 +111,22 @@ type stateType = {
 
 const props = defineProps<propsType>()
 const state: stateType = reactive({
-  data: {} as dataType,
+  data: {} as Data,
   show: {},
   array: {},
   currentDate: new Date()
 })
 
-function onCheckboxClick(key: keyof dataType) {
+function onCheckboxClick(key: keyof Data) {
   state.data[key] = state.array[key].join(',')
 }
 
-function confirmPicker(key: keyof dataType, value: string) {
+function confirmPicker(key: keyof Data, value: string) {
   setData(key, value)
   hidePopup(key)
 }
 
-function confirmDatetimePicker(key: keyof dataType, type: DatetimePickerType = 'datetime') {
+function confirmDatetimePicker(key: keyof Data, type: DatetimePickerType = 'datetime') {
   const { currentDate } = state
   const year = currentDate.getFullYear()
   const month = convertDatetime(currentDate.getMonth() + 1)
@@ -163,7 +165,7 @@ function convertDatetime(value: number): number | string {
   return value > 9 ? value : '0' + value
 }
 
-function confirmArea(key: keyof dataType, result: AreaColumnOption[]) {
+function confirmArea(key: keyof Data, result: AreaColumnOption[]) {
   const province = result[0].name
   const city = result[1].name
   const county = result[2].name
@@ -172,19 +174,22 @@ function confirmArea(key: keyof dataType, result: AreaColumnOption[]) {
   hidePopup(key)
 }
 
-function setData(key: keyof dataType, value: string | number) {
+function setData(key: keyof Data, value: string | number) {
   state.data[key] = value
 }
 
-function hidePopup(key: keyof dataType) {
+function hidePopup(key: keyof Data) {
   state.show[key] = false
 }
 
 onMounted(() => {
   state.data = props.data
   props.config.options.forEach(option => {
-    if (option.fieldType === 'Checkbox' && typeof state.data[option.name] === 'string') {
-      state.array[option.name] = state.data[option.name].split(',')
+    if (state.data[option.name] === undefined && option.default !== undefined) {
+      state.data[option.name] = option.default
+    }
+    if (option.fieldType === 'Checkbox') {
+      state.array[option.name] = state.data[option.name].toString().split(',')
     }
   })
 })
