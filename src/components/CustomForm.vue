@@ -6,7 +6,7 @@
         <van-field
           v-if="item.inline !== false"
           v-model="state.data[item.name]"
-          v-bind="{ ...item.fieldConfig }"
+          v-bind="item.fieldConfig"
           :label="item.label || item.name"
           :placeholder="item.placeholder || `Please input ${item.label}`"
           :disabled="item.disabled"
@@ -20,50 +20,69 @@
           @click="item.popupType ? state.show[item.name] = true : undefined"
         >
           <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
-            <!-- Radio -->
-            <van-radio-group
-              v-if="item.fieldType === 'Radio'"
-              v-model="state.data[item.name]"
-              v-bind="{ ...item.radioConfig }"
-            >
-              <van-radio
-                v-for="opt, idx in item.radioConfig?.options"
-                :key="`${item.name}-${idx}`"
-                v-bind="{ ...opt }"
-                :name="opt.name !== undefined ? opt.name : idx.toString()"
-              >{{ opt.label }}</van-radio>
-            </van-radio-group>
-            <!-- Checkbox -->
+            <!-- Radio - inline -->
+            <CustomRadio
+              :data="state.data[item.name]"
+              :config="item"
+              :set="(data: string | number) => setData(item.name, data)"
+            />
+            <!-- Checkbox - inline -->
             <van-checkbox-group
               v-if="item.fieldType === 'Checkbox'"
               v-model="state.array[item.name]"
-              v-bind="{ ...item.checkboxConfig }"
+              v-bind="item.checkboxConfig"
             >
               <van-checkbox
                 v-for="opt, idx in item.checkboxConfig?.options"
                 :key="`${item.name}-${idx}`"
-                v-bind="{ ...opt }"
+                v-bind="opt"
                 :name="opt.name !== undefined ? opt.name : idx.toString()"
                 :shape="opt.shape || 'square'"
                 @click="onCheckboxClick(item.name)"
+                class="base-box"
               >{{ opt.label }}</van-checkbox>
             </van-checkbox-group>
           </template>
         </van-field>
         <div v-else>
-          <div>{{ item.label }}</div>
+          <van-cell :title="item.label || item.name" :border="false" />
+          <div class="base-box-group">
+            <!-- Radio - outbox -->
+            <CustomRadio
+              :data="state.data[item.name]"
+              :config="item"
+              :set="(data: string | number) => setData(item.name, data)"
+            />
+          </div>
+          <!-- Checkbox - outbox -->
+          <van-checkbox-group
+            v-if="item.fieldType === 'Checkbox'"
+            v-model="state.array[item.name]"
+            v-bind="item.checkboxConfig"
+            class="base-box-group"
+          >
+            <van-checkbox
+              v-for="opt, idx in item.checkboxConfig?.options"
+              :key="`${item.name}-${idx}`"
+              v-bind="opt"
+              :name="opt.name !== undefined ? opt.name : idx.toString()"
+              :shape="opt.shape || 'square'"
+              @click="onCheckboxClick(item.name)"
+              class="base-box"
+            >{{ opt.label }}</van-checkbox>
+          </van-checkbox-group>
         </div>
         <!-- Popup -->
         <van-popup
           v-if="item.popupType"
           :show="state.show[item.name]"
-          v-bind="{ ...item.popupConfig }"
+          v-bind="item.popupConfig"
           :position="item.popupConfig?.position || 'bottom'"
         >
           <!-- Picker -->
           <van-picker
             v-if="item.popupType === 'Picker'"
-            v-bind="{ ...item.pickerConfig }"
+            v-bind="item.pickerConfig"
             @confirm="value => confirmPicker(item.name, value)"
             @cancel="hidePopup(item.name)"
           />
@@ -71,17 +90,25 @@
           <van-datetime-picker
             v-if="item.popupType === 'DatetimePicker'"
             v-model="state.currentDate"
-            v-bind="{ ...item.datetimeConfig }"
+            v-bind="item.datetimeConfig"
             @confirm="confirmDatetimePicker(item.name, item.datetimeConfig?.type)"
             @cancel="hidePopup(item.name)"
           />
           <!-- Area -->
           <van-area
             v-if="item.popupType === 'Area'"
-            v-bind="{ ...item.areaConfig }"
+            v-bind="item.areaConfig"
             :area-list="item.areaConfig?.['area-list'] || areaList"
             @confirm="result => confirmArea(item.name, result)"
             @cancel="hidePopup(item.name)"
+          />
+          <!-- Cascader -->
+          <van-cascader
+            v-if="item.popupType === 'Cascader'"
+            v-model="state.data[item.name]"
+            v-bind="item.cascaderConfig"
+            @finish="data => confirmCascader(item.name, data)"
+            @close="hidePopup(item.name)"
           />
         </van-popup>
       </template>
@@ -91,11 +118,11 @@
 
 <script setup lang="ts">
 import { defineProps, onMounted, reactive } from 'vue'
-import type { DatetimePickerType, AreaColumnOption } from 'vant'
+import type { DatetimePickerType, AreaColumnOption, CascaderOption } from 'vant'
 import { areaList } from '@vant/area-data'
+import CustomRadio from './CustomRadio.vue'
 import type { Data } from '@/models'
 import type { Config } from '@/models/types'
-// import { } from '@/utils'
 
 type propsType = {
   data: Data,
@@ -174,6 +201,12 @@ function confirmArea(key: keyof Data, result: AreaColumnOption[]) {
   hidePopup(key)
 }
 
+function confirmCascader(key: keyof Data, data: { value: string | number, selectedOptions: CascaderOption[], tabIndex: number }) {
+  const value = data.selectedOptions.map(option => option.text).join('/')
+  setData(key, value)
+  hidePopup(key)
+}
+
 function setData(key: keyof Data, value: string | number) {
   state.data[key] = value
 }
@@ -189,12 +222,18 @@ onMounted(() => {
       state.data[option.name] = option.default
     }
     if (option.fieldType === 'Checkbox') {
-      state.array[option.name] = state.data[option.name].toString().split(',')
+      state.array[option.name] = state.data[option.name] ? state.data[option.name].toString().split(',') : []
     }
   })
 })
 </script>
 
 <style scoped>
-</style>
+.base-box-group {
+  padding-left: 2rem;
+}
 
+.base-box {
+  margin-bottom: 0.5rem;
+}
+</style>
