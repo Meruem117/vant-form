@@ -1,5 +1,5 @@
 <template>
-  <van-radio-group v-if="config.fieldType === 'Radio'" v-model="data" v-bind="config.radioConfig">
+  <van-radio-group v-model="data" v-bind="config.radioConfig">
     <van-radio
       v-for="opt, idx in config.radioConfig?.options"
       :key="`${config.name}-${idx}`"

@@ -22,6 +22,7 @@
           <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
             <!-- Radio - inline -->
             <CustomRadio
+              v-if="item.fieldType === 'Radio'"
               :data="state.data[item.name]"
               :config="item"
               :set="(data: string | number) => setData(item.name, data)"
@@ -49,6 +50,7 @@
           <div class="base-box-group">
             <!-- Radio - outbox -->
             <CustomRadio
+              v-if="item.fieldType === 'Radio'"
               :data="state.data[item.name]"
               :config="item"
               :set="(data: string | number) => setData(item.name, data)"
