@@ -15,16 +15,16 @@ import { defineProps, onMounted, watch, ref } from 'vue'
 import type { Data } from '@/models'
 import type { ConfigOption } from '@/models/types'
 
-type BaseProps = {
+type propsType = {
   data: unknown,
   config: ConfigOption<Data>,
   set: (data: string | number) => void
 }
 
-const props = defineProps<BaseProps>()
+const props = defineProps<propsType>()
 const data = ref()
 
-watch(data, (data, preData) => {
+watch(data, (data) => {
   props.set(data)
 })
 

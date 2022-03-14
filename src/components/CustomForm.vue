@@ -26,19 +26,6 @@
               :config="item"
               :set="(data: string | number) => setData(item.name, data)"
             />
-            <!-- <van-radio-group
-              v-if="item.fieldType === 'Radio'"
-              v-model="state.data[item.name]"
-              v-bind="{ ...item.radioConfig }"
-            >
-              <van-radio
-                v-for="opt, idx in item.radioConfig?.options"
-                :key="`${item.name}-${idx}`"
-                v-bind="{ ...opt }"
-                :name="opt.name !== undefined ? opt.name : idx.toString()"
-                class="base-box"
-              >{{ opt.label }}</van-radio>
-            </van-radio-group>-->
             <!-- Checkbox - inline -->
             <van-checkbox-group
               v-if="item.fieldType === 'Checkbox'"
@@ -59,21 +46,14 @@
         </van-field>
         <div v-else>
           <van-cell :title="item.label || item.name" :border="false" />
-          <!-- Radio - outbox -->
-          <van-radio-group
-            v-if="item.fieldType === 'Radio'"
-            v-model="state.data[item.name]"
-            v-bind="item.radioConfig"
-            class="base-box-group"
-          >
-            <van-radio
-              v-for="opt, idx in item.radioConfig?.options"
-              :key="`${item.name}-${idx}`"
-              v-bind="opt"
-              :name="opt.name !== undefined ? opt.name : idx.toString()"
-              class="base-box"
-            >{{ opt.label }}</van-radio>
-          </van-radio-group>
+          <div class="base-box-group">
+            <!-- Radio - outbox -->
+            <CustomRadio
+              :data="state.data[item.name]"
+              :config="item"
+              :set="(data: string | number) => setData(item.name, data)"
+            />
+          </div>
           <!-- Checkbox - outbox -->
           <van-checkbox-group
             v-if="item.fieldType === 'Checkbox'"
