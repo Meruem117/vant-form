@@ -2,9 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import {
   Form, Button, Toast, Dialog, Notify, Loading, Cell, CellGroup,
-  Field, Radio, RadioGroup, Checkbox, CheckboxGroup, Cascader, Slider, Stepper, Switch, Rate, Uploader,
-  ActionSheet, Popup, Picker, DatetimePicker, Area, Calendar
+  Field, Radio, RadioGroup, Checkbox, CheckboxGroup, Slider, Stepper, Switch, Rate, Uploader,
+  ActionSheet, Popup, Picker, DatetimePicker, Area, Cascader, Calendar
 } from 'vant'
+import 'default-passive-events'
 
 createApp(App)
   .use(Form)
@@ -20,10 +21,9 @@ createApp(App)
   .use(RadioGroup)
   .use(Checkbox)
   .use(CheckboxGroup)
-  .use(Cascader)
+  .use(Switch)
   .use(Slider)
   .use(Stepper)
-  .use(Switch)
   .use(Rate)
   .use(Uploader)
   .use(ActionSheet)
@@ -31,5 +31,6 @@ createApp(App)
   .use(Picker)
   .use(DatetimePicker)
   .use(Area)
+  .use(Cascader)
   .use(Calendar)
   .mount('#app')
