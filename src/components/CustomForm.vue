@@ -21,7 +21,11 @@
         >
           <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
             <!-- Radio - inline -->
-            <CustomRadio :data="state.data[item.name]" :config="item" :set="setData" />
+            <CustomRadio
+              :data="state.data[item.name]"
+              :config="item"
+              :set="(data: string | number) => setData(item.name, data)"
+            />
             <!-- <van-radio-group
               v-if="item.fieldType === 'Radio'"
               v-model="state.data[item.name]"

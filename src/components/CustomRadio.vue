@@ -18,7 +18,7 @@ import type { ConfigOption } from '@/models/types'
 type BaseProps = {
   data: unknown,
   config: ConfigOption<Data>,
-  set: (key: keyof Data, value: string | number) => void
+  set: (data: string | number) => void
 }
 
 const props = defineProps<BaseProps>()
