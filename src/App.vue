@@ -1,17 +1,18 @@
 <template>
   <div>
-    <CustomForm :config="state.config" :data="state.data">
+    <BaseCustomForm :config="state.config" :data="state.data">
       <template #slot-test>
         <div>Test Slot</div>
       </template>
-    </CustomForm>
+    </BaseCustomForm>
     <van-button round block type="primary" @click="onSubmit">Submit</van-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import CustomForm from '@/components/CustomForm.vue'
+import BaseCustomForm from './components/BaseCustomForm.vue'
+// import CustomForm from '@/components/CustomForm.vue'
 import type { Data } from '@/models'
 import type { Config } from '@/models/types'
 
