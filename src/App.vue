@@ -11,8 +11,8 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import BaseCustomForm from './components/BaseCustomForm.vue'
 // import CustomForm from '@/components/CustomForm.vue'
+import BaseCustomForm from './components/BaseCustomForm.vue'
 import type { Data } from '@/models'
 import type { Config } from '@/models/types'
 
