@@ -128,10 +128,6 @@ const state: stateType = reactive({
   currentDate: new Date()
 })
 
-function onCheckboxClick(key: keyof Data) {
-  state.data[key] = state.array[key].join(',')
-}
-
 function confirmPicker(key: keyof Data, value: string) {
   setData(key, value)
   hidePopup(key)
