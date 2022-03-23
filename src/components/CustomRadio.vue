@@ -16,13 +16,13 @@ import type { Data } from '@/models'
 import type { ConfigOption } from '@/models/types'
 
 type propsType = {
-  data: unknown,
+  data: string | number,
   config: ConfigOption<Data>,
   set: (data: string | number) => void
 }
 
 const props = defineProps<propsType>()
-const data = ref()
+const data = ref<string | number>('')
 
 watch(data, (data) => {
   props.set(data)

@@ -3,7 +3,6 @@
     v-if="config.fieldType === 'Checkbox'"
     v-model="data"
     v-bind="config.checkboxConfig"
-    class="base-box-group"
   >
     <van-checkbox
       v-for="opt, idx in config.checkboxConfig?.options"
@@ -22,19 +21,19 @@ import type { Data } from '@/models'
 import type { ConfigOption } from '@/models/types'
 
 type propsType = {
-  data: unknown,
+  data: string | number,
   config: ConfigOption<Data>,
-  set: (data: string | number) => void
+  set: (data: string) => void
 }
 
 const props = defineProps<propsType>()
-const data = ref([])
+const data = ref<string[]>([])
 
 watch(data, (data) => {
   props.set(data.join(','))
 })
 
-onMounted(() => data.value = props.data)
+onMounted(() => data.value = props.data.toString().split(','))
 </script>
 
 <style scoped>

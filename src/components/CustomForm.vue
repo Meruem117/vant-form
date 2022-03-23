@@ -28,21 +28,12 @@
               :set="(data: string | number) => setData(item.name, data)"
             />
             <!-- Checkbox - inline -->
-            <van-checkbox-group
+            <CustomCheckbox
               v-if="item.fieldType === 'Checkbox'"
-              v-model="state.array[item.name]"
-              v-bind="item.checkboxConfig"
-            >
-              <van-checkbox
-                v-for="opt, idx in item.checkboxConfig?.options"
-                :key="`${item.name}-${idx}`"
-                v-bind="opt"
-                :name="opt.name !== undefined ? opt.name : idx.toString()"
-                :shape="opt.shape || 'square'"
-                @click="onCheckboxClick(item.name)"
-                class="base-box"
-              >{{ opt.label }}</van-checkbox>
-            </van-checkbox-group>
+              :data="state.data[item.name]"
+              :config="item"
+              :set="(data: string | number) => setData(item.name, data)"
+            />
           </template>
         </van-field>
         <div v-else>
@@ -55,24 +46,14 @@
               :config="item"
               :set="(data: string | number) => setData(item.name, data)"
             />
+            <!-- Checkbox - outbox -->
+            <CustomCheckbox
+              v-if="item.fieldType === 'Checkbox'"
+              :data="state.data[item.name]"
+              :config="item"
+              :set="(data: string | number) => setData(item.name, data)"
+            />
           </div>
-          <!-- Checkbox - outbox -->
-          <van-checkbox-group
-            v-if="item.fieldType === 'Checkbox'"
-            v-model="state.array[item.name]"
-            v-bind="item.checkboxConfig"
-            class="base-box-group"
-          >
-            <van-checkbox
-              v-for="opt, idx in item.checkboxConfig?.options"
-              :key="`${item.name}-${idx}`"
-              v-bind="opt"
-              :name="opt.name !== undefined ? opt.name : idx.toString()"
-              :shape="opt.shape || 'square'"
-              @click="onCheckboxClick(item.name)"
-              class="base-box"
-            >{{ opt.label }}</van-checkbox>
-          </van-checkbox-group>
         </div>
         <!-- Popup -->
         <van-popup
@@ -123,6 +104,7 @@ import { defineProps, onMounted, reactive } from 'vue'
 import type { DatetimePickerType, AreaColumnOption, CascaderOption } from 'vant'
 import { areaList } from '@vant/area-data'
 import CustomRadio from './CustomRadio.vue'
+import CustomCheckbox from './CustomCheckbox.vue'
 import type { Data } from '@/models'
 import type { Config } from '@/models/types'
 
