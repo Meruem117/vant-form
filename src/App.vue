@@ -39,6 +39,7 @@ const state: stateType = reactive({
         name: 'hobby', label: 'Hobby', fieldType: 'Checkbox', inline: false,
         checkboxConfig: { options: [{ label: 'Basketball' }, { label: 'Football' }] }
       },
+      { name: 'switch', label: 'Switch', fieldType: 'Switch' },
       {
         name: 'city', label: 'City', popupType: 'Picker',
         pickerConfig: { title: 'picker', columns: ['常州', '扬州'], 'default-index': 1 }

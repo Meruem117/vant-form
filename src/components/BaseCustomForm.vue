@@ -5,7 +5,7 @@
       <template v-else>
         <van-field
           v-if="item.inline !== false"
-          v-model="state.data[item.name]"
+          :v-model="fieldTypeCheck(state.data[item.name]) ? state.data[item.name] : undefined"
           v-bind="item.fieldConfig"
           :label="item.label || item.name"
           :placeholder="item.placeholder || `Please input ${item.label}`"
@@ -126,7 +126,7 @@
           <!-- Cascader -->
           <van-cascader
             v-if="item.popupType === 'Cascader'"
-            v-model="state.data[item.name]"
+            :v-model="fieldTypeCheck(state.data[item.name]) ? state.data[item.name] : undefined"
             v-bind="item.cascaderConfig"
             @finish="data => confirmCascader(item.name, data)"
             @close="hidePopup(item.name)"
@@ -165,7 +165,8 @@ const state: stateType = reactive({
 })
 
 function onCheckboxClick(key: keyof Data) {
-  state.data[key] = state.array[key].join(',')
+  const value = state.array[key].join(',')
+  setData(key, value)
 }
 
 function confirmPicker(key: keyof Data, value: string) {
@@ -208,10 +209,6 @@ function confirmDatetimePicker(key: keyof Data, type: DatetimePickerType = 'date
   hidePopup(key)
 }
 
-function convertDatetime(value: number): number | string {
-  return value > 9 ? value : '0' + value
-}
-
 function confirmArea(key: keyof Data, result: AreaColumnOption[]) {
   const province = result[0].name
   const city = result[1].name
@@ -227,12 +224,30 @@ function confirmCascader(key: keyof Data, data: { value: string | number, select
   hidePopup(key)
 }
 
+//* utils
+
 function setData(key: keyof Data, value: string | number) {
   state.data[key] = value
 }
 
 function hidePopup(key: keyof Data) {
   state.show[key] = false
+}
+
+function convertDatetime(value: number): number | string {
+  return value > 9 ? value : '0' + value
+}
+
+function convertToString(value: unknown): string {
+  if (typeof value === 'string') {
+    return value
+  } else {
+    return ''
+  }
+}
+
+function fieldTypeCheck(value: unknown): boolean {
+  return typeof value === 'string' || typeof value === 'number' || typeof value === 'undefined'
 }
 
 onMounted(() => {
@@ -242,7 +257,10 @@ onMounted(() => {
       state.data[option.name] = option.default
     }
     if (option.fieldType === 'Checkbox') {
-      state.array[option.name] = state.data[option.name] ? state.data[option.name].toString().split(',') : []
+      state.array[option.name] = state.data[option.name] ? convertToString(state.data[option.name]).split(',') : []
+    }
+    if (option.fieldType === 'Switch') {
+      state.data[option.name] = state.data[option.name] !== undefined ? state.data[option.name] : false
     }
   })
 })

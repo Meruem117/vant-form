@@ -1,12 +1,13 @@
 import type { ConfigOption } from './types'
 
 export interface Data {
-  [key: string]: string | number,
+  [key: string]: unknown,
   name: string,
   password: string,
   age: number,
   gender: string,
   hobby: string,
+  switch: boolean,
   address: string,
   city: string,
   date: string
