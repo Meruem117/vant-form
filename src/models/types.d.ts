@@ -29,7 +29,7 @@ export declare type ConfigOption<T = Data> = {
   areaConfig?: AreaConfig
 } & FieldBaseConfig
 
-type FieldType = 'Text' | 'Radio' | 'Checkbox'
+type FieldType = 'Text' | 'Radio' | 'Checkbox' | 'Switch' | 'Slider' | 'Stepper' | 'Rate'
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Cascader' | 'Calendar'
 
 type FieldBaseConfig = {
