@@ -50,6 +50,12 @@
                 class="base-box"
               >{{ opt.label }}</van-checkbox>
             </van-checkbox-group>
+            <!-- Switch - inline -->
+            <van-switch
+              v-if="item.fieldType === 'Switch'"
+              v-model="state.data[item.name]"
+              v-bind="item.switchConfig"
+            />
           </template>
         </van-field>
         <div v-else>

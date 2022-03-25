@@ -21,6 +21,7 @@ export declare type ConfigOption<T = Data> = {
   fieldConfig?: FieldConfig,
   radioConfig?: RadioGroupConfig,
   checkboxConfig?: CheckboxGroupConfig,
+  switchConfig?: SwitchConfig,
   popupType?: PopupType,
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
@@ -113,6 +114,16 @@ type SharedBoxGroupConfig = {
   disabled?: boolean,
   'icon-size'?: number | string,
   'checked-color'?: string
+}
+
+type SwitchConfig = {
+  loading?: boolean,
+  disabled?: boolean,
+  size?: number | string,
+  'active-color'?: string,
+  'inactive-color'?: string,
+  'active-value'?: number | string,
+  'inactive-value'?: number | string
 }
 
 type PopupConfig = {
