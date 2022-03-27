@@ -64,6 +64,12 @@
               v-model="state.data[item.name]"
               v-bind="item.sliderConfig"
             />
+            <!-- Stepper - inline -->
+            <van-stepper
+              v-if="item.fieldType === 'Stepper'"
+              v-model="state.data[item.name]"
+              v-bind="item.stepperConfig"
+            />
           </template>
         </van-field>
         <template v-else>
@@ -158,7 +164,6 @@ type propsType = {
 }
 
 type stateType = {
-  value: number,
   data: Data,
   show: { [key: string]: boolean },
   array: { [key: string]: string[] | number[] },
@@ -167,7 +172,6 @@ type stateType = {
 
 const props = defineProps<propsType>()
 const state: stateType = reactive({
-  value: 0,
   data: {} as Data,
   show: {},
   array: {},
@@ -271,12 +275,6 @@ onMounted(() => {
     }
     if (option.fieldType === 'Checkbox') {
       state.array[option.name] = state.data[option.name] ? convertToString(state.data[option.name]).split(',') : []
-    }
-    if (option.fieldType === 'Switch') {
-      state.data[option.name] = state.data[option.name] !== undefined ? state.data[option.name] : false
-    }
-    if (option.fieldType === 'Slider') {
-      state.data[option.name] = state.data[option.name] !== undefined ? state.data[option.name] : 0
     }
   })
 })

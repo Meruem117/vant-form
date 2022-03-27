@@ -1,8 +1,9 @@
 import { CamelCase, DelimiterCasedPropertiesDeep } from 'type-fest'
 import type {
   FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
-  RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection,
-  PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList, CascaderOption, CascaderFieldNames
+  RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection, StepperTheme,
+  PopupPosition, PopupCloseIconPosition,
+  PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList, CascaderOption, CascaderFieldNames
 } from 'vant'
 import { Data } from './index'
 
@@ -23,6 +24,7 @@ export declare type ConfigOption<T = Data> = {
   checkboxConfig?: CheckboxGroupConfig,
   switchConfig?: SwitchConfig,
   sliderConfig?: SliderConfig,
+  stepperConfig?: StepperConfig,
   popupType?: PopupType,
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
@@ -140,6 +142,30 @@ type SliderConfig = {
   disabled?: boolean,
   readonly?: boolean,
   vertical?: boolean
+}
+
+type StepperConfig = {
+  min?: number | string,
+  max?: number | string,
+  'default-value'?: number | string,
+  step?: number | string,
+  name?: number | string,
+  'input-width'?: number | string,
+  'button-size'?: number | string,
+  'decimal-length'?: number | string,
+  theme?: StepperTheme,
+  placeholder?: string,
+  integer?: boolean,
+  disabled?: boolean,
+  'disable-plus'?: boolean,
+  'disable-minus'?: boolean,
+  'disable-input'?: boolean,
+  'before-change'?: (value: number | string) => boolean | Promise<boolean>,
+  'show-plus'?: boolean,
+  'show-minus'?: boolean,
+  'show-input'?: boolean,
+  'long-press'?: boolean
+  'allow-empty'?: boolean
 }
 
 type PopupConfig = {
