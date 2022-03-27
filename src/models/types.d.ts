@@ -22,6 +22,7 @@ export declare type ConfigOption<T = Data> = {
   radioConfig?: RadioGroupConfig,
   checkboxConfig?: CheckboxGroupConfig,
   switchConfig?: SwitchConfig,
+  sliderConfig?: SliderConfig,
   popupType?: PopupType,
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
@@ -124,6 +125,21 @@ type SwitchConfig = {
   'inactive-color'?: string,
   'active-value'?: number | string,
   'inactive-value'?: number | string
+}
+
+type SliderConfig = {
+  max?: number | string,
+  min?: number | string,
+  step?: number | string,
+  'bar-height'?: number | string,
+  'button-size'?: number | string,
+  'active-color'?: string,
+  'inactive-color'?: string,
+  range?: boolean,
+  reverse?: boolean,
+  disabled?: boolean,
+  readonly?: boolean,
+  vertical?: boolean
 }
 
 type PopupConfig = {
