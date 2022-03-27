@@ -3,9 +3,10 @@
     <van-cell v-for="item, index in props.config.options" :key="index">
       <slot v-if="item.slot" :name="item.slot" />
       <template v-else>
+        <!-- Text -->
         <van-field
-          v-if="item.inline !== false"
-          :v-model="fieldTypeCheck(state.data[item.name]) ? state.data[item.name] : undefined"
+          v-if="item.fieldType === 'Text'"
+          v-model="state.data[item.name]"
           v-bind="item.fieldConfig"
           :label="item.label || item.name"
           :placeholder="item.placeholder || `Please input ${item.label}`"
@@ -18,8 +19,9 @@
           :right-icon="item.right_icon"
           :rules="item.rules"
           @click="item.popupType ? state.show[item.name] = true : undefined"
-        >
-          <template v-if="item.fieldType !== undefined && item.fieldType !== 'Text'" #input>
+        />
+        <van-field v-else-if="item.inline !== false" :label="item.label || item.name" readonly>
+          <template #input>
             <!-- Radio - inline -->
             <van-radio-group
               v-if="item.fieldType === 'Radio'"
@@ -64,7 +66,7 @@
             />
           </template>
         </van-field>
-        <div v-else>
+        <template v-else>
           <van-cell :title="item.label || item.name" :border="false" />
           <div class="base-box-container">
             <!-- Radio - outbox -->
@@ -98,7 +100,7 @@
               >{{ opt.label }}</van-checkbox>
             </van-checkbox-group>
           </div>
-        </div>
+        </template>
         <!-- Popup -->
         <van-popup
           v-if="item.popupType"
@@ -261,6 +263,9 @@ function fieldTypeCheck(value: unknown): boolean {
 onMounted(() => {
   state.data = props.data
   props.config.options.forEach(option => {
+    if (option.fieldType === undefined) {
+      option.fieldType = 'Text'
+    }
     if (state.data[option.name] === undefined && option.default !== undefined) {
       state.data[option.name] = option.default
     }

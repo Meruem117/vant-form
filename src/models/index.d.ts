@@ -1,7 +1,7 @@
 import type { ConfigOption } from './types'
 
 export interface Data {
-  [key: string]: unknown,
+  [key: string]: any,
   name: string,
   password: string,
   age: number,
