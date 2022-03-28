@@ -42,6 +42,7 @@ const state: stateType = reactive({
       { name: 'toggle', label: 'Toggle', fieldType: 'Switch' },
       { name: 'length', label: 'Length', fieldType: 'Slider' },
       { name: 'count', label: 'Count', fieldType: 'Stepper' },
+      { name: 'score', label: 'Score', fieldType: 'Rate' },
       {
         name: 'city', label: 'City', popupType: 'Picker',
         pickerConfig: { title: 'picker', columns: ['常州', '扬州'], 'default-index': 1 }

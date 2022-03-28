@@ -70,6 +70,12 @@
               v-model="state.data[item.name]"
               v-bind="item.stepperConfig"
             />
+            <!-- Rate - inline -->
+            <van-rate
+              v-if="item.fieldType === 'Rate'"
+              v-model="state.data[item.name]"
+              v-bind="item.rateConfig"
+            />
           </template>
         </van-field>
         <template v-else>

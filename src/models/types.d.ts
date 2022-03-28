@@ -25,6 +25,7 @@ export declare type ConfigOption<T = Data> = {
   switchConfig?: SwitchConfig,
   sliderConfig?: SliderConfig,
   stepperConfig?: StepperConfig,
+  rateConfig?: RateConfig,
   popupType?: PopupType,
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
@@ -166,6 +167,22 @@ type StepperConfig = {
   'show-input'?: boolean,
   'long-press'?: boolean
   'allow-empty'?: boolean
+}
+
+type RateConfig = {
+  count?: number | string,
+  size?: number | string,
+  gutter?: number | string,
+  color?: string,
+  'void-color'?: string,
+  'disabled-color'?: string,
+  icon?: string,
+  'void-icon'?: string,
+  'icon-prefix'?: string,
+  'allow-half'?: boolean,
+  readonly?: boolean,
+  disabled?: boolean,
+  touchable?: boolean
 }
 
 type PopupConfig = {
