@@ -60,7 +60,8 @@ const state: stateType = reactive({
             { text: '北京', value: '北京', children: [{ text: '北京市', value: '北京市' }] }
           ]
         }
-      }
+      },
+      { name: 'date2', label: 'Date2', popupType: 'Calendar' },
     ]
   }
 })

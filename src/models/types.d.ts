@@ -3,7 +3,7 @@ import type {
   FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
   RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection, StepperTheme,
   PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType,
-  AreaList, CascaderOption, CascaderFieldNames, CalendarType, CalendarDayItem
+  AreaList, CascaderOption, CascaderFieldNames, CalendarType, CalendarDayItem,
 } from 'vant'
 import { Data } from './index'
 
@@ -32,7 +32,7 @@ export declare type ConfigOption<T = Data> = {
   datetimeConfig?: DatetimePickerConfig,
   areaConfig?: AreaConfig,
   cascaderConfig?: CascaderConfig,
-  calenderConfig?: CalendarConfig,
+  calendarConfig?: CalendarConfig,
 } & FieldBaseConfig
 
 type FieldType = 'Text' | 'Radio' | 'Checkbox' | 'Switch' | 'Slider' | 'Stepper' | 'Rate'
@@ -280,9 +280,9 @@ type CalendarConfig = {
   readonly?: boolean,
   'confirm-text'?: string,
   'confirm-disabled-text'?: string,
-  'first-day-of-week'?: number,
+  'first-day-of-week'?: number | string,
   // poppable = true
-  position?: string,
+  position?: 'top' | 'right' | 'left',
   round?: boolean,
   'close-on-popstate'?: boolean,
   'close-on-click-overlay'?: boolean,

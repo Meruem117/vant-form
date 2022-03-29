@@ -115,7 +115,7 @@
         </template>
         <!-- Popup -->
         <van-popup
-          v-if="item.popupType"
+          v-if="item.popupType && item.popupType !== 'Calendar'"
           :show="state.show[item.name]"
           v-bind="item.popupConfig"
           :position="item.popupConfig?.position || 'bottom'"
@@ -146,12 +146,19 @@
           <!-- Cascader -->
           <van-cascader
             v-if="item.popupType === 'Cascader'"
-            :v-model="fieldTypeCheck(state.data[item.name]) ? state.data[item.name] : undefined"
+            v-model="state.data[item.name]"
             v-bind="item.cascaderConfig"
             @finish="data => confirmCascader(item.name, data)"
             @close="hidePopup(item.name)"
           />
         </van-popup>
+        <!-- Calendar -->
+        <van-calendar
+          v-else
+          v-model:show="state.show[item.name]"
+          v-bind="item.calendarConfig"
+          @confirm="value => confirmCalendar(item.name, value)"
+        />
       </template>
     </van-cell>
   </van-cell-group>
@@ -244,6 +251,12 @@ function confirmCascader(key: keyof Data, data: { value: string | number, select
   hidePopup(key)
 }
 
+function confirmCalendar(key: keyof Data, value: Date) {
+  console.log(value)
+  // setData(key, value)
+  hidePopup(key)
+}
+
 //* utils
 
 function setData(key: keyof Data, value: string | number) {
@@ -264,10 +277,6 @@ function convertToString(value: unknown): string {
   } else {
     return ''
   }
-}
-
-function fieldTypeCheck(value: unknown): boolean {
-  return typeof value === 'string' || typeof value === 'number' || typeof value === 'undefined'
 }
 
 onMounted(() => {
