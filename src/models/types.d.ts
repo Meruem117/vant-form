@@ -2,8 +2,8 @@ import { CamelCase, DelimiterCasedPropertiesDeep } from 'type-fest'
 import type {
   FieldType as FieldBaseType, CellSize, FieldClearTrigger, FieldTextAlign, FieldFormatTrigger, FieldAutosizeConfig, FieldRule,
   RadioShape, RadioLabelPosition, RadioGroupDirection, CheckboxShape, CheckboxLabelPosition, CheckboxGroupDirection, StepperTheme,
-  PopupPosition, PopupCloseIconPosition,
-  PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType, AreaList, CascaderOption, CascaderFieldNames
+  PopupPosition, PopupCloseIconPosition, PickerToolbarPosition, PickerColumn, PickerOption, DatetimePickerType,
+  AreaList, CascaderOption, CascaderFieldNames, CalendarType, CalendarDayItem
 } from 'vant'
 import { Data } from './index'
 
@@ -30,8 +30,9 @@ export declare type ConfigOption<T = Data> = {
   popupConfig?: PopupConfig,
   pickerConfig?: PickerConfig,
   datetimeConfig?: DatetimePickerConfig,
+  areaConfig?: AreaConfig,
   cascaderConfig?: CascaderConfig,
-  areaConfig?: AreaConfig
+  calenderConfig?: CalendarConfig,
 } & FieldBaseConfig
 
 type FieldType = 'Text' | 'Radio' | 'Checkbox' | 'Switch' | 'Slider' | 'Stepper' | 'Rate'
@@ -259,6 +260,38 @@ type CascaderConfig = {
   'show-header'?: boolean,
   'close-icon'?: string,
   'field-names'?: CascaderFieldNames
+}
+
+type CalendarConfig = {
+  type?: CalendarType,
+  title?: string,
+  color?: string,
+  'min-date'?: Date,
+  'max-date'?: Date,
+  'default-date'?: Date | Date[] | null,
+  'row-height'?: number | string,
+  formatter?: (day: CalendarDayItem) => CalendarDayItem,
+  poppable?: boolean,
+  'lazy-render'?: boolean,
+  'show-mark'?: boolean,
+  'show-title'?: boolean,
+  'show-subtitle'?: boolean,
+  'show-confirm'?: boolean,
+  readonly?: boolean,
+  'confirm-text'?: string,
+  'confirm-disabled-text'?: string,
+  'first-day-of-week'?: number,
+  // poppable = true
+  position?: string,
+  round?: boolean,
+  'close-on-popstate'?: boolean,
+  'close-on-click-overlay'?: boolean,
+  'safe-area-inset-top'?: boolean,
+  'safe-area-inset-bottom'?: boolean,
+  teleport?: string | Element,
+  // type = 'range'
+  'max-range'?: number | string,
+  'range-prompt'?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
