@@ -263,6 +263,7 @@ type CascaderConfig = {
 }
 
 type CalendarConfig = {
+  formatDate?: (date: Date) => string,
   type?: CalendarType,
   title?: string,
   color?: string,

@@ -61,7 +61,10 @@ const state: stateType = reactive({
           ]
         }
       },
-      { name: 'date2', label: 'Date2', popupType: 'Calendar' },
+      {
+        name: 'range', label: 'Range', popupType: 'Calendar',
+        calendarConfig: { type: 'range' }
+      },
     ]
   }
 })

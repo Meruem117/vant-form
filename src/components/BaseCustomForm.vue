@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 <template>
   <van-cell-group :inset="config.insert" :class="config.globalClass">
     <van-cell v-for="item, index in props.config.options" :key="index">
@@ -157,7 +158,7 @@
           v-else
           v-model:show="state.show[item.name]"
           v-bind="item.calendarConfig"
-          @confirm="value => confirmCalendar(item.name, value)"
+          @confirm="value => confirmCalendar(item.name, value, item.calendarConfig?.type, item.calendarConfig?.formatDate)"
         />
       </template>
     </van-cell>
@@ -166,7 +167,7 @@
 
 <script setup lang="ts">
 import { defineProps, onMounted, reactive } from 'vue'
-import type { DatetimePickerType, AreaColumnOption, CascaderOption } from 'vant'
+import type { DatetimePickerType, AreaColumnOption, CascaderOption, CalendarType } from 'vant'
 import { areaList } from '@vant/area-data'
 import type { Data } from '@/models'
 import type { Config } from '@/models/types'
@@ -251,9 +252,19 @@ function confirmCascader(key: keyof Data, data: { value: string | number, select
   hidePopup(key)
 }
 
-function confirmCalendar(key: keyof Data, value: Date) {
-  console.log(value)
-  // setData(key, value)
+function confirmCalendar(key: keyof Data, data: Date | Date[], type: CalendarType = 'single', formatDate?: (date: Date) => string) {
+  let value = ''
+  const format = formatDate ? formatDate : (date: Date) => type === 'range' ?
+    `${date.getMonth() + 1}/${date.getDate()}` : `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+  if (type === 'range' && data instanceof Array) {
+    const [start, end] = data
+    value = `${format(start)} - ${format(end)}`
+  } else if (type === 'multiple' && data instanceof Array) {
+    value = `选择了 ${data.length} 个日期`
+  } else if (type === 'single' && data instanceof Date) {
+    value = format(data)
+  }
+  setData(key, value)
   hidePopup(key)
 }
 
