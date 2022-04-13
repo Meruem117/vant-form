@@ -198,8 +198,7 @@ type stateType = {
   data: Data,
   show: { [key: string]: boolean },
   array: { [key: string]: string[] | number[] },
-  currentDate: Date,
-  showK: boolean
+  currentDate: Date
 }
 
 const props = defineProps<propsType>()
@@ -207,8 +206,7 @@ const state: stateType = reactive({
   data: {} as Data,
   show: {},
   array: {},
-  currentDate: new Date(),
-  showK: false
+  currentDate: new Date()
 })
 
 function onCheckboxClick(key: keyof Data) {
