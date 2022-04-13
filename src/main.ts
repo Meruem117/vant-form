@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import {
   Form, Button, Toast, Dialog, Notify, Loading, Cell, CellGroup,
-  Field, Radio, RadioGroup, Checkbox, CheckboxGroup, Slider, Stepper, Switch, Rate, Uploader,
+  Field, PasswordInput, NumberKeyboard, Radio, RadioGroup, Checkbox, CheckboxGroup, Slider, Stepper, Switch, Rate, Uploader,
   ActionSheet, Popup, Picker, DatetimePicker, Area, Cascader, Calendar
 } from 'vant'
 import 'default-passive-events'
@@ -17,6 +17,8 @@ createApp(App)
   .use(Cell)
   .use(CellGroup)
   .use(Field)
+  .use(PasswordInput)
+  .use(NumberKeyboard)
   .use(Radio)
   .use(RadioGroup)
   .use(Checkbox)
