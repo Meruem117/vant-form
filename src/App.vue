@@ -28,11 +28,11 @@ const state: stateType = reactive({
     insert: true,
     options: [
       { name: 'name', label: 'Name' },
-      { name: 'password', label: 'Password' },
+      { name: 'password', label: 'Password', fieldType: 'Password' },
       { name: 'age', label: 'Age' },
       { name: 'address', slot: 'slot-test' },
       {
-        name: 'gender', label: 'Gender', fieldType: 'Radio', inline: false,
+        name: 'gender', label: 'Gender', fieldType: 'Radio',
         radioConfig: { options: [{ label: 'Male' }, { label: 'Female' }], direction: 'horizontal' }
       },
       {

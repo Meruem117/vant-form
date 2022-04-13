@@ -35,7 +35,7 @@ export declare type ConfigOption<T = Data> = {
   calendarConfig?: CalendarConfig,
 } & FieldBaseConfig
 
-type FieldType = 'Text' | 'Radio' | 'Checkbox' | 'Switch' | 'Slider' | 'Stepper' | 'Rate'
+type FieldType = 'Text' | 'Password' | 'Radio' | 'Checkbox' | 'Switch' | 'Slider' | 'Stepper' | 'Rate'
 type PopupType = 'Picker' | 'DatetimePicker' | 'Area' | 'Cascader' | 'Calendar'
 
 type FieldBaseConfig = {

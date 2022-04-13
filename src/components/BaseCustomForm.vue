@@ -21,7 +21,11 @@
           :rules="item.rules"
           @click="item.popupType ? state.show[item.name] = true : undefined"
         />
-        <van-field v-else-if="item.inline !== false" :label="item.label || item.name" readonly>
+        <van-field
+          v-else-if="item.inline !== false && item.fieldType !== 'Password'"
+          :label="item.label || item.name"
+          readonly
+        >
           <template #input>
             <!-- Radio - inline -->
             <van-radio-group
@@ -81,38 +85,51 @@
         </van-field>
         <template v-else>
           <van-cell :title="item.label || item.name" :border="false" />
-          <div class="base-box-container">
-            <!-- Radio - outbox -->
-            <van-radio-group
-              v-if="item.fieldType === 'Radio'"
+          <!-- Password -->
+          <div v-if="item.fieldType === 'Password'">
+            <van-password-input
+              :value="state.data[item.name]"
+              :focused="state.show[item.name]"
+              @focus="state.show[item.name] = true"
+            />
+            <van-number-keyboard
               v-model="state.data[item.name]"
-              v-bind="item.radioConfig"
-            >
-              <van-radio
-                v-for="opt, idx in item.radioConfig?.options"
-                :key="`${item.name}-${idx}`"
-                v-bind="opt"
-                :name="opt.name !== undefined ? opt.name : idx.toString()"
-                class="base-box"
-              >{{ opt.label }}</van-radio>
-            </van-radio-group>
-            <!-- Checkbox - outbox -->
-            <van-checkbox-group
-              v-if="item.fieldType === 'Checkbox'"
-              v-model="state.array[item.name]"
-              v-bind="item.checkboxConfig"
-            >
-              <van-checkbox
-                v-for="opt, idx in item.checkboxConfig?.options"
-                :key="`${item.name}-${idx}`"
-                v-bind="opt"
-                :name="opt.name !== undefined ? opt.name : idx.toString()"
-                :shape="opt.shape || 'square'"
-                @click="onCheckboxClick(item.name)"
-                class="base-box"
-              >{{ opt.label }}</van-checkbox>
-            </van-checkbox-group>
+              :show="state.show[item.name]"
+              @blur="state.show[item.name] = false"
+            />
           </div>
+          <!-- Radio - outbox -->
+          <van-radio-group
+            v-if="item.fieldType === 'Radio'"
+            v-model="state.data[item.name]"
+            v-bind="item.radioConfig"
+            class="base-box-container"
+          >
+            <van-radio
+              v-for="opt, idx in item.radioConfig?.options"
+              :key="`${item.name}-${idx}`"
+              v-bind="opt"
+              :name="opt.name !== undefined ? opt.name : idx.toString()"
+              class="base-box"
+            >{{ opt.label }}</van-radio>
+          </van-radio-group>
+          <!-- Checkbox - outbox -->
+          <van-checkbox-group
+            v-if="item.fieldType === 'Checkbox'"
+            v-model="state.array[item.name]"
+            v-bind="item.checkboxConfig"
+            class="base-box-container"
+          >
+            <van-checkbox
+              v-for="opt, idx in item.checkboxConfig?.options"
+              :key="`${item.name}-${idx}`"
+              v-bind="opt"
+              :name="opt.name !== undefined ? opt.name : idx.toString()"
+              :shape="opt.shape || 'square'"
+              @click="onCheckboxClick(item.name)"
+              class="base-box"
+            >{{ opt.label }}</van-checkbox>
+          </van-checkbox-group>
         </template>
         <!-- Popup -->
         <van-popup
@@ -181,7 +198,8 @@ type stateType = {
   data: Data,
   show: { [key: string]: boolean },
   array: { [key: string]: string[] | number[] },
-  currentDate: Date
+  currentDate: Date,
+  showK: boolean
 }
 
 const props = defineProps<propsType>()
@@ -189,7 +207,8 @@ const state: stateType = reactive({
   data: {} as Data,
   show: {},
   array: {},
-  currentDate: new Date()
+  currentDate: new Date(),
+  showK: false
 })
 
 function onCheckboxClick(key: keyof Data) {
